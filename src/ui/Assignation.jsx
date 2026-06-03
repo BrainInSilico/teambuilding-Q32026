@@ -24,6 +24,15 @@ export default function Assignation({ menaces, joueurs, onValider }) {
   }
 
   const nbAssignes = Object.keys(placement).length
+  // Brouillage (Codename) est un jeu à 2 : 0 joueur (on le laisse monter) ou ≥2,
+  // mais jamais exactement 1.
+  const nbCodename = Object.values(placement).filter((id) => id === 'codename').length
+  const brouillageInvalide = nbCodename === 1
+
+  const validerSiOk = () => {
+    if (brouillageInvalide) return
+    onValider(carte())
+  }
 
   return (
     <div className="assignation">
@@ -50,9 +59,12 @@ export default function Assignation({ menaces, joueurs, onValider }) {
           </span>
         </div>
       ))}
+      {brouillageInvalide && (
+        <p className="assignation__alerte">Brouillage est un jeu à 2 : mets-y au moins 2 joueurs, ou aucun.</p>
+      )}
       <div className="assignation__pied">
         <span data-testid="assign-compteur">{nbAssignes}/{joueurs.length} joueurs assignés</span>
-        <button onClick={() => onValider(carte())}>Valider l’assignation</button>
+        <button onClick={validerSiOk} disabled={brouillageInvalide}>Valider l’assignation</button>
       </div>
     </div>
   )

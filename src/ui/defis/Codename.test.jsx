@@ -9,28 +9,39 @@ const grille = [
   { mot: 'PHARE', role: 'allie' },
 ]
 
-describe('Codename (composant)', () => {
-  it('révéler un allié marque un point', () => {
+// Le donneur voit les rôles puis transmet l'indice aux devineurs.
+function passerEnDevineur() {
+  fireEvent.click(screen.getByRole('button', { name: /transmettre/i }))
+}
+
+describe('Codename (flux 2 joueurs)', () => {
+  it('démarre en mode donneur : rôles visibles + saisie d’indice', () => {
+    render(<Codename grilleInitiale={grille} onTermine={() => {}} />)
+    expect(screen.getByTestId('codename-mode')).toHaveTextContent(/donneur/i)
+    expect(screen.getByTestId('codename-indice')).toBeInTheDocument()
+  })
+
+  it('après transmission, les devineurs marquent en cliquant un allié', () => {
     const onTermine = vi.fn()
     render(<Codename grilleInitiale={grille} onTermine={onTermine} />)
+    passerEnDevineur()
     fireEvent.click(screen.getByRole('button', { name: /ÉTOILE/ }))
-    expect(onTermine).toHaveBeenCalledWith(1, 2) // 2 alliés au total
+    expect(onTermine).toHaveBeenCalledWith(1, 2)
   })
 
   it('toucher le piège termine le défi', () => {
     const onTermine = vi.fn()
     render(<Codename grilleInitiale={grille} onTermine={onTermine} />)
+    passerEnDevineur()
     fireEvent.click(screen.getByRole('button', { name: /VIRUS/ }))
     expect(screen.getByTestId('codename-fin')).toBeInTheDocument()
     expect(onTermine).toHaveBeenLastCalledWith(0, 2)
   })
 
-  it('un mot déjà révélé ne se reclique pas', () => {
+  it('en mode donneur, cliquer un mot ne marque pas (il donne l’indice à l’oral)', () => {
     const onTermine = vi.fn()
     render(<Codename grilleInitiale={grille} onTermine={onTermine} />)
-    const etoile = screen.getByRole('button', { name: /ÉTOILE/ })
-    fireEvent.click(etoile)
-    fireEvent.click(etoile)
-    expect(onTermine).toHaveBeenCalledTimes(1)
+    fireEvent.click(screen.getByRole('button', { name: /ÉTOILE/ }))
+    expect(onTermine).not.toHaveBeenCalled()
   })
 })

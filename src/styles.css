@@ -307,3 +307,8 @@ button:hover { background: #243049; }
 .crypto__aide { width: 100%; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.8rem; }
 .crypto__famille { color: #8fd3ff; }
 .crypto__crib { color: #c4ccda; }
+
+/* --- Alerte assignation + donneur codename --- */
+.assignation__alerte { color: var(--critique); font-size: 0.82rem; }
+.codename__donneur { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.codename__donneur input[type="text"], .codename__donneur input:not([type]) { width: 140px; }
