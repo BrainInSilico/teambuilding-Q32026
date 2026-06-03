@@ -275,3 +275,13 @@ button:hover { background: #243049; }
 .arcade__grille { display: grid; grid-template-columns: repeat(var(--cols), 1fr); gap: 4px; width: 160px; }
 .arcade__cell { aspect-ratio: 1; padding: 0; margin: 0; background: #10141d; }
 .arcade__cell--actif { background: var(--critique); color: #fff; }
+
+/* --- Défi Codename --- */
+.codename__barre { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; margin-bottom: 6px; }
+.codename__grille { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+.codename__mot { font-size: 0.75rem; padding: 8px 4px; }
+.codename__mot--allie { background: var(--calme); color: #04140a; }
+.codename__mot--piege { background: var(--critique); color: #fff; }
+.codename__mot--neutre { background: #3a3f4d; }
+.codename__apercu--allie { outline: 2px solid var(--calme); }
+.codename__apercu--piege { outline: 2px solid var(--critique); }

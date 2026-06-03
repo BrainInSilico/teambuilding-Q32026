@@ -2,3 +2,4 @@
 // (chaque composant appelle enregistrerDefi à l'import).
 import './Crypto.jsx'
 import './Arcade.jsx'
+import './Codename.jsx'
