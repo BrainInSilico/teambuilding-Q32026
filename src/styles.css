@@ -293,3 +293,12 @@ button:hover { background: #243049; }
 .page-defi__entete { display: flex; justify-content: space-between; align-items: baseline; }
 .page-defi__retour { color: var(--integrite); text-decoration: none; font-size: 0.85rem; }
 .page-defi__report { margin-top: 18px; padding: 12px 14px; border: 1px solid var(--trait); border-radius: 10px; background: var(--carte); font-size: 1.05rem; }
+
+/* --- Défi Casse-brique --- */
+.cb__hud { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+.cb__aire { position: relative; width: 100%; max-width: 480px; aspect-ratio: 1; background: #060912; border: 1px solid var(--trait); border-radius: 8px; overflow: hidden; touch-action: none; cursor: none; }
+.cb__brique { position: absolute; background: var(--tension); border-radius: 2px; }
+.cb__balle { position: absolute; width: 3%; height: 3%; background: #fff; border-radius: 50%; transform: translate(-50%, -50%); }
+.cb__raquette { position: absolute; height: 2.5%; background: var(--integrite); border-radius: 4px; transform: translateY(-50%); }
+.cb__fin { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.6); font-weight: 700; }
+.cb__aide { font-size: 0.8rem; color: #9aa6bd; }
