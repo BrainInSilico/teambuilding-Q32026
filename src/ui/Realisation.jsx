@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { defiPour } from './defis/registre.js'
 
-// Phase réalisation : chaque menace est traitée via SON défi.
-//  - défi digital  → composant jouable qui rapporte (x, n) par onTermine.
-//  - défi manuel   → saisie du score par l'organisateur (physique / repli).
+// Phase réalisation : chaque menace a son défi.
+//  - défi digital → se joue sur sa PAGE dédiée (#/defi/<id>, ouvrable sur un
+//    autre appareil). Ici : lien d'ouverture + saisie du score reporté.
+//  - défi manuel  → saisie directe du score (physique).
 // Tous les défis tournent en parallèle ; on valide quand l'équipe a fini.
 export default function Realisation({ menaces, assignation, onValider }) {
   const init = Object.fromEntries(menaces.map((m) => [m.id, { x: 0, n: defiPour(m.id).n }]))
@@ -25,25 +26,24 @@ export default function Realisation({ menaces, assignation, onValider }) {
               {affecte && <em className="realisation__affecte"> ({affecte})</em>}
             </span>
 
-            {defi.type === 'digital' ? (
-              <span className="realisation__digital">
-                <defi.Composant menace={m} onTermine={(x, n) => poser(m.id, x, n ?? defi.n)} />
-                <span className="realisation__score">{res.x}/{res.n}</span>
-              </span>
-            ) : (
-              <label className="realisation__manuel">
-                {defi.labelX}
-                <input
-                  type="number"
-                  data-testid={`res-x-${m.id}`}
-                  value={res.x}
-                  min={0}
-                  max={defi.n}
-                  onChange={(e) => poser(m.id, Number(e.target.value), defi.n)}
-                />
-                / {defi.n}
-              </label>
+            {defi.type === 'digital' && (
+              <a className="realisation__lien" href={`#/defi/${m.id}`} target="_blank" rel="noreferrer">
+                Ouvrir le défi ↗
+              </a>
             )}
+
+            <label className="realisation__manuel">
+              {defi.labelX ?? 'score'}
+              <input
+                type="number"
+                data-testid={`res-x-${m.id}`}
+                value={res.x}
+                min={0}
+                max={defi.n}
+                onChange={(e) => poser(m.id, Number(e.target.value), defi.n)}
+              />
+              / {defi.n}
+            </label>
           </div>
         )
       })}

@@ -285,3 +285,11 @@ button:hover { background: #243049; }
 .codename__mot--neutre { background: #3a3f4d; }
 .codename__apercu--allie { outline: 2px solid var(--calme); }
 .codename__apercu--piege { outline: 2px solid var(--critique); }
+
+/* --- Pages de défi & liens --- */
+.realisation__lien { color: var(--integrite); text-decoration: none; font-size: 0.85rem; }
+.realisation__lien:hover { text-decoration: underline; }
+.page-defi { max-width: 720px; margin: 0 auto; padding: 24px 16px; }
+.page-defi__entete { display: flex; justify-content: space-between; align-items: baseline; }
+.page-defi__retour { color: var(--integrite); text-decoration: none; font-size: 0.85rem; }
+.page-defi__report { margin-top: 18px; padding: 12px 14px; border: 1px solid var(--trait); border-radius: 10px; background: var(--carte); font-size: 1.05rem; }
