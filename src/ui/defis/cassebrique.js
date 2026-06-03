@@ -3,9 +3,13 @@
 
 const L = 100
 const H = 100
-const COLS = 6
-const RANGS = 3
-export const NB_BRIQUES = COLS * RANGS
+// Le nombre de briques est tiré au hasard à chaque partie (variété + difficulté).
+const COLS_MIN = 5
+const COLS_MAX = 7
+const RANGS_MIN = 2
+const RANGS_MAX = 4
+export const MIN_BRIQUES = COLS_MIN * RANGS_MIN
+export const MAX_BRIQUES = COLS_MAX * RANGS_MAX
 
 const dansRect = (x, y, r) => x >= r.x && x <= r.x + r.w && y >= r.y && y <= r.y + r.h
 
@@ -44,14 +48,18 @@ export function pas(etat) {
   return { ...etat, balle: b, briques, cassees, perdu }
 }
 
-// Terrain initial : grille de briques en haut, balle au centre lancée vers le haut.
-export function nouveauTerrain() {
+const entre = (rng, lo, hi) => lo + Math.floor(rng() * (hi - lo + 1))
+
+// Terrain initial : grille de briques (taille TIRÉE au hasard), balle au centre.
+export function nouveauTerrain(rng = Math.random) {
+  const cols = entre(rng, COLS_MIN, COLS_MAX)
+  const rangs = entre(rng, RANGS_MIN, RANGS_MAX)
   const margeX = 6
-  const largeurB = (L - margeX * 2) / COLS
+  const largeurB = (L - margeX * 2) / cols
   const hauteurB = 7
   const briques = []
-  for (let rang = 0; rang < RANGS; rang++) {
-    for (let col = 0; col < COLS; col++) {
+  for (let rang = 0; rang < rangs; rang++) {
+    for (let col = 0; col < cols; col++) {
       briques.push({
         x: margeX + col * largeurB,
         y: 12 + rang * (hauteurB + 2),
@@ -64,10 +72,11 @@ export function nouveauTerrain() {
   return {
     L,
     H,
-    balle: { x: 50, y: 70, vx: 1.4, vy: -1.8, r: 1 },
+    balle: { x: 50, y: 70, vx: rng() < 0.5 ? -1.4 : 1.4, vy: -1.8, r: 1 },
     raquette: { x: 40, largeur: 20, y: 95 },
     briques,
     cassees: 0,
     perdu: false,
+    total: briques.length,
   }
 }

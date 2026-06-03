@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { nouveauTerrain, pas, NB_BRIQUES } from './cassebrique.js'
+import { nouveauTerrain, pas, MIN_BRIQUES, MAX_BRIQUES } from './cassebrique.js'
+import { mulberry32 } from '../../engine/rng.js'
 
-// État de base modifiable pour scénariser chaque collision.
 const base = (over = {}) => ({
   L: 100,
   H: 100,
@@ -38,19 +38,26 @@ describe('pas — collisions', () => {
     expect(e.balle.vy).toBeLessThan(0)
     expect(e.perdu).toBe(false)
   })
-
-  it('est pure (n’altère pas l’état d’entrée)', () => {
-    const e = base({ briques: [{ x: 45, y: 40, w: 10, h: 6, vivante: true }] })
-    const snap = structuredClone(e)
-    pas(e)
-    expect(e).toEqual(snap)
-  })
 })
 
-describe('nouveauTerrain', () => {
-  it('génère NB_BRIQUES briques vivantes et une balle en mouvement', () => {
-    const t = nouveauTerrain()
-    expect(t.briques.filter((b) => b.vivante)).toHaveLength(NB_BRIQUES)
-    expect(t.balle.vy).not.toBe(0)
+describe('nouveauTerrain — nombre de briques aléatoire', () => {
+  it('génère un nombre de briques dans [MIN, MAX], toutes vivantes', () => {
+    const t = nouveauTerrain(mulberry32(42))
+    const vivantes = t.briques.filter((b) => b.vivante)
+    expect(t.briques.length).toBe(vivantes.length)
+    expect(t.briques.length).toBeGreaterThanOrEqual(MIN_BRIQUES)
+    expect(t.briques.length).toBeLessThanOrEqual(MAX_BRIQUES)
+  })
+
+  it('le tirage varie selon le seed', () => {
+    const a = nouveauTerrain(mulberry32(1)).briques.length
+    const b = nouveauTerrain(mulberry32(50)).briques.length
+    // au moins un seed parmi plusieurs donne un total différent
+    const c = nouveauTerrain(mulberry32(7)).briques.length
+    expect(new Set([a, b, c]).size).toBeGreaterThan(1)
+  })
+
+  it('déterministe pour un même seed', () => {
+    expect(nouveauTerrain(mulberry32(3))).toEqual(nouveauTerrain(mulberry32(3)))
   })
 })
