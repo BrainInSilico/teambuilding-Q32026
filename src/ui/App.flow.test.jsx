@@ -12,18 +12,11 @@ describe('App — tour complet via l’UI', () => {
 
     // menace → assignation
     fireEvent.click(screen.getByRole('button', { name: /continuer/i }))
-    expect(screen.getByRole('button', { name: /valider l’assignation/i })).toBeInTheDocument()
-
-    // assignation → realisation
     fireEvent.click(screen.getByRole('button', { name: /valider l’assignation/i }))
 
-    // saisir un résultat parfait sur arcade
-    fireEvent.change(screen.getByTestId('res-x-arcade'), { target: { value: '10' } })
-    fireEvent.change(screen.getByTestId('res-n-arcade'), { target: { value: '10' } })
+    // realisation → score (valeurs par défaut, indépendant du type de défi)
     fireEvent.click(screen.getByRole('button', { name: /valider les résultats/i }))
-
-    // score : la note apparaît
-    expect(screen.getByText(/éradiqué/i)).toBeInTheDocument()
+    expect(screen.getByText(/verdict/i)).toBeInTheDocument()
 
     // score → tour suivant
     fireEvent.click(screen.getByRole('button', { name: /continuer/i }))
