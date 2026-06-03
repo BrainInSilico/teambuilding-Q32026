@@ -261,3 +261,11 @@ button:hover { background: #243049; }
 .mj__ligne { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; }
 .mj__nom { font-size: 0.9rem; }
 .mj__boutons button { margin: 0 2px; padding: 4px 8px; font-size: 0.8rem; }
+
+/* --- Défi Crypto --- */
+.crypto { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.crypto__progress { width: 100%; font-size: 0.78rem; color: #9aa6bd; }
+.crypto__chiffre { font-family: ui-monospace, monospace; font-size: 1.2rem; letter-spacing: 0.2em; background: #060912; padding: 4px 10px; border-radius: 6px; }
+.crypto__indice { width: 100%; font-size: 0.8rem; color: #8fd3ff; }
+.crypto input { width: 160px; }
+.crypto__erreur { color: var(--critique); font-size: 0.82rem; }
