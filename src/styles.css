@@ -269,3 +269,9 @@ button:hover { background: #243049; }
 .crypto__indice { width: 100%; font-size: 0.8rem; color: #8fd3ff; }
 .crypto input { width: 160px; }
 .crypto__erreur { color: var(--critique); font-size: 0.82rem; }
+
+/* --- Défi Arcade --- */
+.arcade__progress { font-size: 0.78rem; color: #9aa6bd; margin-bottom: 6px; }
+.arcade__grille { display: grid; grid-template-columns: repeat(var(--cols), 1fr); gap: 4px; width: 160px; }
+.arcade__cell { aspect-ratio: 1; padding: 0; margin: 0; background: #10141d; }
+.arcade__cell--actif { background: var(--critique); color: #fff; }
