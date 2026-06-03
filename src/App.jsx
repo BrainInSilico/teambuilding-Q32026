@@ -5,6 +5,7 @@ import Assignation from './ui/Assignation.jsx'
 import Realisation from './ui/Realisation.jsx'
 import Score from './ui/Score.jsx'
 import Fin from './ui/Fin.jsx'
+import PanneauMJ from './ui/PanneauMJ.jsx'
 import { reducer, etatInitial } from './ui/store.js'
 import { vuePublique } from './engine/index.js'
 import { libellePhase } from './ui/presentation.js'
@@ -70,6 +71,13 @@ export default function App() {
       {etat.phase === 'score' && (
         <Score dernierScore={etat.dernierScore} onContinuer={() => dispatch({ type: 'continuer' })} />
       )}
+
+      <PanneauMJ
+        menaces={vue.menaces}
+        integrite={vue.integrite}
+        onAjusterMenace={(menaceId, delta) => dispatch({ type: 'mjAjusterMenace', menaceId, delta })}
+        onAjusterIntegrite={(delta) => dispatch({ type: 'mjAjusterIntegrite', delta })}
+      />
     </div>
   )
 }

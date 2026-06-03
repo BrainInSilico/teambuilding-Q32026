@@ -87,3 +87,24 @@ describe('store — fin de tour & rejouer', () => {
     expect(reducer(e, { type: 'zzz' })).toBe(e)
   })
 })
+
+describe('store — actions MJ (safeguard)', () => {
+  it('mjAjusterMenace modifie le niveau visible (clampé)', () => {
+    let e = jouer(demarrer)
+    const id = e.partie.menaces[0].id
+    const n0 = e.partie.menaces[0].niveau
+    e = reducer(e, { type: 'mjAjusterMenace', menaceId: id, delta: -10 })
+    expect(e.partie.menaces[0].niveau).toBe(Math.max(0, n0 - 10))
+  })
+
+  it('mjAjusterIntegrite modifie l’Intégrité (clampée)', () => {
+    let e = jouer(demarrer)
+    e = reducer(e, { type: 'mjAjusterIntegrite', delta: -30 })
+    expect(e.partie.integrite).toBe(70)
+  })
+
+  it('actions MJ sans partie → état inchangé', () => {
+    const e = etatInitial()
+    expect(reducer(e, { type: 'mjAjusterIntegrite', delta: -30 })).toBe(e)
+  })
+})

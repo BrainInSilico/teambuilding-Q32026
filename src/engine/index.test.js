@@ -6,6 +6,8 @@ import {
   appliquerScore,
   finDeTour,
   appliquerEvenement,
+  ajusterMenace,
+  ajusterIntegrite,
 } from './index.js'
 import { CONFIG } from './constantes.js'
 
@@ -281,5 +283,36 @@ describe('appliquerEvenement', () => {
     const snapshot = structuredClone(etat)
     appliquerEvenement(etat)
     expect(etat).toEqual(snapshot)
+  })
+})
+
+describe('ajusteurs MJ (safeguard)', () => {
+  it('ajusterMenace applique un delta clampé [0,100]', () => {
+    const e0 = nouvellePartie(42)
+    const niveau0 = e0.menaces[0].niveau
+    const e1 = ajusterMenace(e0, e0.menaces[0].id, +10)
+    expect(e1.menaces[0].niveau).toBe(Math.min(100, niveau0 + 10))
+    const e2 = ajusterMenace(e0, e0.menaces[0].id, -1000)
+    expect(e2.menaces[0].niveau).toBe(0)
+  })
+
+  it('ajusterMenace est pure (pas de mutation)', () => {
+    const e0 = nouvellePartie(42)
+    const snap = structuredClone(e0)
+    ajusterMenace(e0, e0.menaces[0].id, +5)
+    expect(e0).toEqual(snap)
+  })
+
+  it('ajusterIntegrite clampe [0,100]', () => {
+    const e0 = nouvellePartie(42)
+    expect(ajusterIntegrite(e0, +50).integrite).toBe(100)
+    expect(ajusterIntegrite(e0, -1000).integrite).toBe(0)
+  })
+
+  it('ajusterMenace ne touche pas aux valeurs cachées', () => {
+    const e0 = nouvellePartie(42)
+    const e1 = ajusterMenace(e0, e0.menaces[0].id, +5)
+    expect(e1.menaces[0].vitesse).toBe(e0.menaces[0].vitesse)
+    expect(e1.seuilT).toBe(e0.seuilT)
   })
 })

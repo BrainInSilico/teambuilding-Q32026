@@ -252,3 +252,12 @@ button:hover { background: #243049; }
 .fin--defaite h1 { color: var(--danger); }
 .fin__recap { margin: 16px 0; }
 .fin__menaces { list-style: none; padding: 0; display: grid; gap: 4px; }
+
+/* --- Panneau MJ --- */
+.mj { margin-top: 24px; }
+.mj__bascule { background: #241c33; border-color: #3a2a4d; }
+.mj__corps { margin-top: 8px; padding: 14px 16px; border: 1px dashed #3a2a4d; border-radius: 12px; background: #14101d; }
+.mj__aide { font-size: 0.8rem; color: #9aa6bd; margin-top: 0; }
+.mj__ligne { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; }
+.mj__nom { font-size: 0.9rem; }
+.mj__boutons button { margin: 0 2px; padding: 4px 8px; font-size: 0.8rem; }

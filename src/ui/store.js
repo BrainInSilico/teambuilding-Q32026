@@ -10,6 +10,8 @@ import {
   appliquerEvenement,
   appliquerScore,
   finDeTour,
+  ajusterMenace,
+  ajusterIntegrite,
 } from '../engine/index.js'
 import { noteArtefact } from './presentation.js'
 
@@ -73,6 +75,14 @@ export function reducer(etat, action) {
       }
       return { ...etat, partie, resultats, dernierScore, phase: 'score' }
     }
+
+    case 'mjAjusterMenace':
+      if (!etat.partie) return etat
+      return { ...etat, partie: ajusterMenace(etat.partie, action.menaceId, action.delta) }
+
+    case 'mjAjusterIntegrite':
+      if (!etat.partie) return etat
+      return { ...etat, partie: ajusterIntegrite(etat.partie, action.delta) }
 
     case 'rejouer':
       return etatInitial()

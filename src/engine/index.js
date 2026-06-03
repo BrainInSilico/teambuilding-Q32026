@@ -170,4 +170,20 @@ export function appliquerEvenement(etat) {
   }
 }
 
+// --- Ajusteurs MJ / safeguard ----------------------------------------------
+// Permettent à l'organisateur de corriger l'état VISIBLE à la main (repli sans
+// LLM). Ils passent par le clamp du moteur et ne touchent pas au brouillard.
+export function ajusterMenace(etat, menaceId, delta) {
+  return {
+    ...etat,
+    menaces: etat.menaces.map((m) =>
+      m.id === menaceId ? { ...m, niveau: clamp(m.niveau + delta, 0, 100) } : m,
+    ),
+  }
+}
+
+export function ajusterIntegrite(etat, delta) {
+  return { ...etat, integrite: clamp(etat.integrite + delta, 0, 100) }
+}
+
 export { rngPositionne, between, clamp }
