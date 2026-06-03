@@ -22,9 +22,14 @@ export default function App() {
   }
 
   if (etat.phase === 'fin') {
+    const vue = vuePublique(etat.partie)
     return (
       <div className="app">
-        <Fin issue={etat.partie.issue} onRejouer={() => dispatch({ type: 'rejouer' })} />
+        <Fin
+          issue={etat.partie.issue}
+          recap={{ tour: vue.tour, integrite: vue.integrite, menaces: vue.menaces }}
+          onRejouer={() => dispatch({ type: 'rejouer' })}
+        />
       </div>
     )
   }
