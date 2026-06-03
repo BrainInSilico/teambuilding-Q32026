@@ -9,7 +9,6 @@ import { reducer, etatInitial } from './ui/store.js'
 import { vuePublique } from './engine/index.js'
 import { libellePhase } from './ui/presentation.js'
 
-const SEED_DEV = 42
 
 export default function App() {
   const [etat, dispatch] = useReducer(reducer, undefined, etatInitial)
@@ -17,7 +16,7 @@ export default function App() {
   if (etat.phase === 'setup') {
     return (
       <div className="app">
-        <Setup onDemarrer={({ joueurs }) => dispatch({ type: 'demarrer', seed: SEED_DEV, joueurs })} />
+        <Setup onDemarrer={({ joueurs, seed }) => dispatch({ type: 'demarrer', seed, joueurs })} />
       </div>
     )
   }
