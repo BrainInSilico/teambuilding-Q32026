@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { paletteMenace, niveauTension, libellePhase } from './presentation.js'
+import { paletteMenace, niveauTension, libellePhase, noteArtefact } from './presentation.js'
 
 describe('paletteMenace', () => {
   it('calme sous 50', () => {
@@ -40,5 +40,18 @@ describe('libellePhase', () => {
   })
   it('renvoie la phase brute si inconnue', () => {
     expect(libellePhase('???')).toBe('???')
+  })
+})
+
+describe('noteArtefact', () => {
+  it('réduction 100 → éradiqué', () => {
+    expect(noteArtefact(100).toLowerCase()).toContain('éradiqué')
+  })
+  it('réduction nulle → effort gâché', () => {
+    expect(noteArtefact(0).toLowerCase()).toContain('gâché')
+  })
+  it('réduction moyenne → libellé intermédiaire non vide', () => {
+    expect(typeof noteArtefact(50)).toBe('string')
+    expect(noteArtefact(50).length).toBeGreaterThan(0)
   })
 })

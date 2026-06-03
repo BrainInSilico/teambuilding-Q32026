@@ -27,3 +27,14 @@ const LIBELLES_PHASE = {
 export function libellePhase(phase) {
   return LIBELLES_PHASE[phase] ?? phase
 }
+
+// Qualité d'un artefact/défi selon la réduction de menace obtenue (0→100).
+// De « éradiqué » à « effort gâché ».
+export function noteArtefact(reduction) {
+  if (reduction >= 100) return 'Éradiqué'
+  if (reduction >= 75) return 'Neutralisé'
+  if (reduction >= 50) return 'Repoussé'
+  if (reduction >= 25) return 'Contenu'
+  if (reduction > 0) return 'À peine entamé'
+  return 'Effort gâché'
+}
