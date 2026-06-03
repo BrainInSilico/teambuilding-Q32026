@@ -312,3 +312,10 @@ button:hover { background: #243049; }
 .assignation__alerte { color: var(--critique); font-size: 0.82rem; }
 .codename__donneur { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
 .codename__donneur input[type="text"], .codename__donneur input:not([type]) { width: 140px; }
+
+/* --- Aide alphabet crypto --- */
+.crypto__champ { width: 100%; font-size: 0.8rem; color: #8fd3ff; }
+.crypto__alphabet { width: 100%; display: flex; flex-wrap: wrap; gap: 3px; margin: 4px 0; }
+.crypto__lettre { display: inline-flex; flex-direction: column; align-items: center; min-width: 20px; background: #10141d; border: 1px solid var(--trait); border-radius: 4px; padding: 2px 0; line-height: 1.1; }
+.crypto__lettre b { font-size: 0.72rem; }
+.crypto__lettre i { font-size: 0.6rem; color: #6b7689; font-style: normal; }

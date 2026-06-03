@@ -48,6 +48,15 @@ export default function Crypto({ paliersInitiaux, onTermine }) {
   return (
     <div className="crypto">
       <div className="crypto__progress">Palier {index + 1}/{n} · {resolus} résolus</div>
+      <div className="crypto__champ">💡 Tous les mots partagent un même <strong>champ lexical</strong> (non précisé) — devinez-le pour aller plus vite.</div>
+      <div className="crypto__alphabet" data-testid="crypto-alphabet">
+        {Array.from({ length: 26 }, (_, k) => (
+          <span key={k} className="crypto__lettre">
+            <b>{String.fromCharCode(65 + k)}</b>
+            <i>{k + 1}</i>
+          </span>
+        ))}
+      </div>
       <div className="crypto__chiffre">{courant.chiffre}</div>
       <div className="crypto__aide">
         <span className="crypto__famille">{courant.famille}</span>

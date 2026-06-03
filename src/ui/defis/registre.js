@@ -11,7 +11,7 @@ const REGISTRE = {
   codename: { titre: 'Codename', type: 'manuel', n: 8, labelX: 'mots trouvés' },
   bowling: { titre: 'Bowling gobelets', type: 'manuel', n: 10, labelX: 'quilles tombées' },
   tour: { titre: 'La Tour', type: 'manuel', n: 8, labelX: 'étages tenus 5 s' },
-  crypto: { titre: 'Crypto croissante', type: 'manuel', n: 5, labelX: 'paliers résolus' },
+  crypto: { titre: 'Crypto', type: 'manuel', n: 5, labelX: 'paliers résolus' },
 }
 
 export function defiPour(menaceId) {

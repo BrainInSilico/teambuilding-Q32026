@@ -37,7 +37,20 @@ export function verifier(saisie, clair) {
   return normaliser(saisie) === normaliser(clair) && normaliser(clair).length > 0
 }
 
-const MOTS = ['SOLEIL', 'PLANETE', 'GALAXIE', 'COMETE', 'ORBITE', 'LUMIERE', 'ETOILE', 'NEBULEUSE']
+// 10 champs lexicaux UNIVERSELS (rien de culturel, aucun nom propre). Mots
+// stockés en A–Z (sans accents) : le chiffre ne fuite donc aucun caractère.
+export const THEMES = [
+  ['GIRAFE', 'RENARD', 'TORTUE', 'BALEINE', 'MARMOTTE', 'CROCODILE', 'REQUIN', 'CRAPAUD', 'HERISSON', 'PANTHERE'],
+  ['TOMATE', 'BANANE', 'CAROTTE', 'POIVRON', 'FROMAGE', 'CHOCOLAT', 'GALETTE', 'ABRICOT', 'BISCUIT', 'POIREAU'],
+  ['GENOU', 'COUDE', 'TALON', 'MENTON', 'POIGNET', 'CHEVILLE', 'MOLLET', 'ORTEIL', 'GORGE', 'EPAULE'],
+  ['ESCALIER', 'FAUTEUIL', 'ARMOIRE', 'PLAFOND', 'CUISINE', 'MIROIR', 'RIDEAU', 'COUSSIN', 'TIROIR', 'BALCON'],
+  ['MARTEAU', 'TOURNEVIS', 'PINCEAU', 'PERCEUSE', 'BROUETTE', 'TENAILLE', 'BOULON', 'ENCLUME', 'RABOT', 'BALANCE'],
+  ['MANTEAU', 'CHAUSSURE', 'PANTALON', 'CHAPEAU', 'CEINTURE', 'CHEMISE', 'BONNET', 'FOULARD', 'SANDALE', 'VESTON'],
+  ['ROSEAU', 'BAMBOU', 'MUGUET', 'CHARDON', 'LIERRE', 'TULIPE', 'JONQUILLE', 'COQUELICOT', 'FOUGERE', 'PISSENLIT'],
+  ['CORAIL', 'COQUILLAGE', 'ALGUE', 'RIVAGE', 'COURANT', 'GALET', 'NAGEOIRE', 'MEDUSE', 'MOUSSE', 'MAREE'],
+  ['BATEAU', 'BICYCLETTE', 'CAMION', 'TRAINEAU', 'VOILIER', 'CHARRETTE', 'SCOOTER', 'TRAMWAY', 'PIROGUE', 'AVION'],
+  ['NUAGE', 'ORAGE', 'TONNERRE', 'BROUILLARD', 'GIVRE', 'ECLAIR', 'AVERSE', 'BRUME', 'GRELON', 'NEIGE'],
+]
 
 const FAMILLES = {
   cesar: 'Décalage d’alphabet (type César)',
@@ -61,17 +74,28 @@ function tirerMethode(rng) {
   return { type }
 }
 
+// Mélange Fisher-Yates piloté par le rng.
+function melanger(arr, rng) {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1))
+    ;[a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
 export function genererCrypto(rng, n = 5) {
-  const paliers = []
-  for (let i = 0; i < n; i++) {
-    const clair = MOTS[Math.floor(rng() * MOTS.length)]
+  // Un seul champ lexical par partie (non précisé aux joueurs, mais signalé) :
+  // une fois un mot cassé, on peut deviner le thème → aide à la déduction.
+  const theme = THEMES[Math.floor(rng() * THEMES.length)]
+  const mots = melanger(theme, rng).slice(0, n)
+  return mots.map((clair) => {
     const methode = tirerMethode(rng)
-    paliers.push({
+    return {
       clair,
       chiffre: chiffrer(clair, methode),
       famille: FAMILLES[methode.type], // aide : on nomme la famille, pas la clé
       crib: clair[0], // aide : une lettre déchiffrée (point d'entrée)
-    })
-  }
-  return paliers
+    }
+  })
 }

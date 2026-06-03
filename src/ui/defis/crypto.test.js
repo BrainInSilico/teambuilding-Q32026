@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { chiffrer, verifier, genererCrypto } from './crypto.js'
+import { chiffrer, verifier, genererCrypto, THEMES } from './crypto.js'
 import { mulberry32 } from '../../engine/rng.js'
 
 describe('chiffrer', () => {
@@ -40,5 +40,22 @@ describe('genererCrypto v2', () => {
     const a = genererCrypto(mulberry32(1), 5).map((p) => p.famille)
     const b = genererCrypto(mulberry32(99), 5).map((p) => p.famille)
     expect(a).not.toEqual(b) // deux seeds → séquences de familles différentes
+  })
+
+  it('au moins 10 champs lexicaux universels disponibles', () => {
+    expect(THEMES.length).toBeGreaterThanOrEqual(10)
+  })
+
+  it('tous les mots d’une partie viennent du MÊME champ lexical', () => {
+    const clairs = genererCrypto(mulberry32(42), 5).map((p) => p.clair)
+    const themesContenant = THEMES.filter((t) => clairs.every((m) => t.includes(m)))
+    expect(themesContenant.length).toBe(1)
+  })
+
+  it('le champ tiré varie selon le seed', () => {
+    const t1 = genererCrypto(mulberry32(2), 5)[0].clair
+    const t2 = genererCrypto(mulberry32(500), 5)[0].clair
+    const t3 = genererCrypto(mulberry32(8), 5)[0].clair
+    expect(new Set([t1, t2, t3]).size).toBeGreaterThan(1)
   })
 })

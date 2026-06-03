@@ -19,6 +19,20 @@ describe('Crypto (composant)', () => {
     expect(screen.getByTestId('crypto-crib')).toHaveTextContent('S')
   })
 
+  it('affiche l’aide alphabet/numéros (A=1, Z=26)', () => {
+    render(<Crypto paliersInitiaux={paliers} onTermine={() => {}} />)
+    const aide = screen.getByTestId('crypto-alphabet')
+    expect(aide).toHaveTextContent('A')
+    expect(aide).toHaveTextContent('1')
+    expect(aide).toHaveTextContent('Z')
+    expect(aide).toHaveTextContent('26')
+  })
+
+  it('signale qu’un champ lexical commun existe (sans le nommer)', () => {
+    render(<Crypto paliersInitiaux={paliers} onTermine={() => {}} />)
+    expect(screen.getByText(/champ lexical/i)).toBeInTheDocument()
+  })
+
   it('une bonne réponse fait progresser et rapporte le score', () => {
     const onTermine = vi.fn()
     render(<Crypto paliersInitiaux={paliers} onTermine={onTermine} />)
