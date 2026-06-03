@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { paletteMenace, niveauTension, libellePhase, noteArtefact } from './presentation.js'
+import { paletteMenace, niveauTension, libellePhase, noteArtefact, phraseVerdict } from './presentation.js'
 
 describe('paletteMenace', () => {
   it('calme sous 50', () => {
@@ -53,5 +53,15 @@ describe('noteArtefact', () => {
   it('réduction moyenne → libellé intermédiaire non vide', () => {
     expect(typeof noteArtefact(50)).toBe('string')
     expect(noteArtefact(50).length).toBeGreaterThan(0)
+  })
+})
+
+describe('phraseVerdict', () => {
+  it('renvoie une phrase non vide selon la réduction', () => {
+    expect(phraseVerdict(100).length).toBeGreaterThan(0)
+    expect(phraseVerdict(0).length).toBeGreaterThan(0)
+  })
+  it('distingue succès et échec', () => {
+    expect(phraseVerdict(100)).not.toBe(phraseVerdict(0))
   })
 })

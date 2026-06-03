@@ -227,3 +227,13 @@ button {
   background: #1c2433; color: #e6e6e6; cursor: pointer; font-size: 0.9rem; margin-top: 12px;
 }
 button:hover { background: #243049; }
+
+/* --- Verdict (Score) --- */
+.score__cartes { display: grid; gap: 10px; }
+.score__carte { padding: 10px 12px; border-radius: 10px; background: #10141d; border: 1px solid var(--trait); }
+.score__entete { display: flex; justify-content: space-between; font-weight: 600; }
+.score__note { color: var(--calme); }
+.score__piste { height: 8px; border-radius: 4px; background: #060912; overflow: hidden; margin: 6px 0; }
+.score__reduction { height: 100%; background: var(--calme); transition: width 500ms ease; }
+.score__phrase { margin: 4px 0 0; font-size: 0.85rem; color: #c4ccda; }
+.score__chiffre { color: #6b7689; }

@@ -67,8 +67,9 @@ export function reducer(etat, action) {
       const dernierScore = []
       for (const [menaceId, { x, n }] of Object.entries(resultats)) {
         const reduction = n > 0 ? (Math.max(0, Math.min(x, n)) / n) * 100 : 0
+        const nom = partie.menaces.find((m) => m.id === menaceId)?.nom ?? menaceId
         partie = appliquerScore(partie, menaceId, x, n)
-        dernierScore.push({ menaceId, x, n, reduction, note: noteArtefact(reduction) })
+        dernierScore.push({ menaceId, nom, x, n, reduction, note: noteArtefact(reduction) })
       }
       return { ...etat, partie, resultats, dernierScore, phase: 'score' }
     }

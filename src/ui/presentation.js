@@ -38,3 +38,12 @@ export function noteArtefact(reduction) {
   if (reduction > 0) return 'À peine entamé'
   return 'Effort gâché'
 }
+
+// Phrase courte d'accompagnement du verdict (habillage ; remplacé/augmenté par
+// ARGOS quand le LLM est branché).
+export function phraseVerdict(reduction) {
+  if (reduction >= 100) return 'Menace pulvérisée. Le système respire.'
+  if (reduction >= 50) return 'Belle riposte — la pression retombe.'
+  if (reduction > 0) return 'Quelques dégâts limités, mais elle tient.'
+  return 'Coup dans le vide. La menace progresse.'
+}
