@@ -39,29 +39,39 @@ export function verifier(saisie, clair) {
 
 const MOTS = ['SOLEIL', 'PLANETE', 'GALAXIE', 'COMETE', 'ORBITE', 'LUMIERE', 'ETOILE', 'NEBULEUSE']
 
-// Échelle de difficulté croissante (1 → n).
-function methodePalier(i, rng) {
-  const k = 1 + Math.floor(rng() * 24)
-  switch (i) {
-    case 0:
-      return { methode: { type: 'cesar', k: 3 }, indice: 'César : chaque lettre décalée de 3.' }
-    case 1:
-      return { methode: { type: 'cesar', k }, indice: 'César : décalage inconnu.' }
-    case 2:
-      return { methode: { type: 'atbash' }, indice: 'A↔Z, B↔Y… (miroir d’alphabet).' }
-    case 3:
-      return { methode: { type: 'miroir' }, indice: '' }
-    default:
-      return { methode: { type: 'cesar-miroir', k }, indice: '' }
+const FAMILLES = {
+  cesar: 'Décalage d’alphabet (type César)',
+  atbash: 'Miroir d’alphabet (A↔Z, B↔Y…)',
+  miroir: 'Texte renversé',
+  'cesar-miroir': 'Décalage + texte renversé',
+}
+
+const TYPES = ['cesar', 'atbash', 'miroir', 'cesar-miroir']
+
+// Tire une méthode ALÉATOIRE (type + paramètres). Le décalage César peut être
+// positif OU négatif (sens à deviner). Aucun ordre de difficulté imposé : un
+// joueur ne peut pas pré-construire de table valable d'un tour à l'autre.
+function tirerMethode(rng) {
+  const type = TYPES[Math.floor(rng() * TYPES.length)]
+  if (type === 'cesar' || type === 'cesar-miroir') {
+    const ampleur = 1 + Math.floor(rng() * 24)
+    const signe = rng() < 0.5 ? 1 : -1
+    return { type, k: signe * ampleur }
   }
+  return { type }
 }
 
 export function genererCrypto(rng, n = 5) {
   const paliers = []
   for (let i = 0; i < n; i++) {
     const clair = MOTS[Math.floor(rng() * MOTS.length)]
-    const { methode, indice } = methodePalier(i, rng)
-    paliers.push({ clair, chiffre: chiffrer(clair, methode), indice })
+    const methode = tirerMethode(rng)
+    paliers.push({
+      clair,
+      chiffre: chiffrer(clair, methode),
+      famille: FAMILLES[methode.type], // aide : on nomme la famille, pas la clé
+      crib: clair[0], // aide : une lettre déchiffrée (point d'entrée)
+    })
   }
   return paliers
 }

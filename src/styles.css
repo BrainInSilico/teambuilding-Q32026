@@ -302,3 +302,8 @@ button:hover { background: #243049; }
 .cb__raquette { position: absolute; height: 2.5%; background: var(--integrite); border-radius: 4px; transform: translateY(-50%); }
 .cb__fin { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.6); font-weight: 700; }
 .cb__aide { font-size: 0.8rem; color: #9aa6bd; }
+
+/* --- Aide crypto v2 --- */
+.crypto__aide { width: 100%; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.8rem; }
+.crypto__famille { color: #8fd3ff; }
+.crypto__crib { color: #c4ccda; }

@@ -49,7 +49,12 @@ export default function Crypto({ paliersInitiaux, onTermine }) {
     <div className="crypto">
       <div className="crypto__progress">Palier {index + 1}/{n} · {resolus} résolus</div>
       <div className="crypto__chiffre">{courant.chiffre}</div>
-      {courant.indice && <div className="crypto__indice">{courant.indice}</div>}
+      <div className="crypto__aide">
+        <span className="crypto__famille">{courant.famille}</span>
+        <span className="crypto__crib">
+          1ʳᵉ lettre du mot : <strong data-testid="crypto-crib">{courant.crib}</strong>
+        </span>
+      </div>
       <input
         data-testid="crypto-saisie"
         value={saisie}
