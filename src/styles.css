@@ -237,3 +237,9 @@ button:hover { background: #243049; }
 .score__reduction { height: 100%; background: var(--calme); transition: width 500ms ease; }
 .score__phrase { margin: 4px 0 0; font-size: 0.85rem; color: #c4ccda; }
 .score__chiffre { color: #6b7689; }
+
+/* --- Ton de l'événement --- */
+.plateau__evenement--positif {
+  background: rgba(54, 194, 117, 0.15);
+  border-color: rgba(54, 194, 117, 0.5);
+}

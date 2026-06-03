@@ -1,6 +1,6 @@
 import Jauge from './Jauge.jsx'
 import MetaJauge from './MetaJauge.jsx'
-import { libellePhase, niveauTension } from './presentation.js'
+import { libellePhase, niveauTension, evenementTon } from './presentation.js'
 import { CONFIG } from '../engine/constantes.js'
 
 // Écran central d'ambiance. Lit UNIQUEMENT la vue publique du moteur.
@@ -15,7 +15,10 @@ export default function Plateau({ vue }) {
       </header>
 
       {vue.evenement && (
-        <div className="plateau__evenement" data-testid="bandeau-evenement">
+        <div
+          className={`plateau__evenement plateau__evenement--${evenementTon(vue.evenement.id)}`}
+          data-testid="bandeau-evenement"
+        >
           {vue.evenement.libelle}
         </div>
       )}

@@ -1,5 +1,12 @@
 import { describe, it, expect } from 'vitest'
-import { paletteMenace, niveauTension, libellePhase, noteArtefact, phraseVerdict } from './presentation.js'
+import {
+  paletteMenace,
+  niveauTension,
+  libellePhase,
+  noteArtefact,
+  phraseVerdict,
+  evenementTon,
+} from './presentation.js'
 
 describe('paletteMenace', () => {
   it('calme sous 50', () => {
@@ -63,5 +70,19 @@ describe('phraseVerdict', () => {
   })
   it('distingue succès et échec', () => {
     expect(phraseVerdict(100)).not.toBe(phraseVerdict(0))
+  })
+})
+
+describe('evenementTon', () => {
+  it('repit est positif', () => {
+    expect(evenementTon('repit')).toBe('positif')
+  })
+  it('surtension/cascade/mutation sont négatifs', () => {
+    expect(evenementTon('surtension')).toBe('negatif')
+    expect(evenementTon('cascade')).toBe('negatif')
+    expect(evenementTon('mutation')).toBe('negatif')
+  })
+  it('inconnu → négatif par défaut', () => {
+    expect(evenementTon('???')).toBe('negatif')
   })
 })

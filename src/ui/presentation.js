@@ -47,3 +47,10 @@ export function phraseVerdict(reduction) {
   if (reduction > 0) return 'Quelques dégâts limités, mais elle tient.'
   return 'Coup dans le vide. La menace progresse.'
 }
+
+// Ton d'un événement pour l'affichage. La majorité sont négatifs ; seuls
+// quelques-uns soulagent l'équipe.
+const EVENEMENTS_POSITIFS = new Set(['repit'])
+export function evenementTon(id) {
+  return EVENEMENTS_POSITIFS.has(id) ? 'positif' : 'negatif'
+}
