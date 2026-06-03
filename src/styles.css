@@ -1,10 +1,192 @@
-/* Styles minimaux — l'ambiance complète arrive en T7. */
+/* ============================================================================
+   ARGOS — ambiance graphique du Plateau.
+   Montée de tension visuelle pilotée par la variable --tension (0 → 1),
+   posée par le composant Plateau depuis niveauTension().
+   ============================================================================ */
 :root {
   color-scheme: dark;
+  --calme: #36c275;
+  --tension: #e0a83a;
+  --critique: #e2483d;
+  --integrite: #4aa8ff;
+  --danger: #e2483d;
+  --fond: #0b0e14;
+  --carte: #161b26;
+  --trait: #2a3243;
 }
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: system-ui, sans-serif;
-  background: #0b0e14;
+  font-family: system-ui, "Segoe UI", sans-serif;
+  background: var(--fond);
   color: #e6e6e6;
+}
+
+.app {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
+
+/* --- Plateau : le fond se teinte de rouge à mesure que la tension monte --- */
+.plateau {
+  position: relative;
+  padding: 20px;
+  border-radius: 16px;
+  background:
+    radial-gradient(
+      120% 120% at 50% -10%,
+      rgba(226, 72, 61, calc(var(--tension, 0) * 0.28)),
+      transparent 60%
+    ),
+    var(--carte);
+  border: 1px solid var(--trait);
+  transition: background 600ms ease;
+}
+
+.plateau__entete {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16px;
+  letter-spacing: 0.04em;
+}
+.plateau__tour {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+.plateau__phase {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  color: #9aa6bd;
+}
+
+.plateau__evenement {
+  margin-bottom: 16px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(226, 72, 61, 0.15);
+  border: 1px solid rgba(226, 72, 61, 0.5);
+  font-size: 0.92rem;
+  animation: surgir 400ms ease;
+}
+@keyframes surgir {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.plateau__menaces {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+/* --- Jauge de menace --- */
+.jauge {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #10141d;
+  border: 1px solid var(--trait);
+}
+.jauge__entete {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+}
+.jauge__niveau {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+.jauge__piste {
+  height: 12px;
+  border-radius: 6px;
+  background: #060912;
+  overflow: hidden;
+}
+.jauge__barre {
+  height: 100%;
+  border-radius: 6px;
+  /* transition temps réel quand le niveau change */
+  transition: width 500ms cubic-bezier(0.22, 1, 0.36, 1), background 400ms ease;
+}
+.jauge--calme .jauge__barre { background: var(--calme); }
+.jauge--tension .jauge__barre { background: var(--tension); }
+.jauge--critique .jauge__barre { background: var(--critique); }
+.jauge--critique { animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse {
+  50% { border-color: var(--critique); }
+}
+.jauge__gel {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 0.78rem;
+  color: #8fd3ff;
+}
+
+/* --- Méta-jauge Intégrité système --- */
+.integrite {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #10141d;
+  border: 1px solid var(--trait);
+}
+.integrite__entete {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.integrite__titre {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.8rem;
+  color: #9aa6bd;
+}
+.integrite__valeur {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.integrite__piste {
+  position: relative;
+  height: 16px;
+  border-radius: 8px;
+  background: #060912;
+  overflow: hidden;
+}
+.integrite__barre {
+  height: 100%;
+  background: var(--integrite);
+  transition: width 500ms ease, background 400ms ease;
+}
+.integrite__ligne {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  background: #fff;
+  opacity: 0.7;
+}
+.integrite--danger .integrite__barre { background: var(--danger); }
+.integrite--danger { animation: pulse 1.2s ease-in-out infinite; }
+
+/* --- Contrôles de debug (temporaires) --- */
+.debug-controls {
+  margin-top: 20px;
+  text-align: center;
+}
+.debug-controls button {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: 1px solid var(--trait);
+  background: #1c2433;
+  color: #e6e6e6;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.debug-controls button:hover {
+  background: #243049;
 }
