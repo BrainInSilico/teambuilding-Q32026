@@ -190,3 +190,40 @@ body {
 .debug-controls button:hover {
   background: #243049;
 }
+
+/* --- Statut de phase + panneaux (mise en forme de base, affinée par unité) --- */
+.phase-statut {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 16px 0 8px;
+  font-size: 0.85rem;
+}
+.phase-statut__libelle { font-weight: 700; }
+.phase-statut__cle { color: #6b7689; font-size: 0.75rem; }
+
+.panneau, .assignation, .realisation, .score, .setup, .fin {
+  background: var(--carte);
+  border: 1px solid var(--trait);
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+.assignation__ligne, .realisation__ligne {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--trait);
+}
+.assignation__menace, .realisation__ligne > span:first-child { min-width: 130px; font-weight: 600; }
+.pastille {
+  margin-right: 6px; padding: 4px 10px; border-radius: 999px;
+  border: 1px solid var(--trait); background: #1c2433; color: #e6e6e6; cursor: pointer;
+}
+.pastille--actif { background: var(--integrite); color: #04101f; border-color: var(--integrite); }
+.realisation input { width: 64px; margin-left: 6px; }
+button {
+  padding: 9px 16px; border-radius: 8px; border: 1px solid var(--trait);
+  background: #1c2433; color: #e6e6e6; cursor: pointer; font-size: 0.9rem; margin-top: 12px;
+}
+button:hover { background: #243049; }
