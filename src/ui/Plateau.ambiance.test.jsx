@@ -13,7 +13,7 @@ describe('App — ambiance & interaction', () => {
   it('expose la variable CSS de tension sur le plateau', () => {
     const { container } = render(<App />)
     const plateau = container.querySelector('.plateau')
-    expect(plateau.style.getPropertyValue('--tension')).not.toBe('')
+    expect(plateau.style.getPropertyValue('--tension-globale')).not.toBe('')
   })
 
   it('le stepper debug fait monter au moins une jauge', () => {

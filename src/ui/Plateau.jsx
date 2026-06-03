@@ -8,7 +8,7 @@ import { CONFIG } from '../engine/constantes.js'
 export default function Plateau({ vue }) {
   const tension = niveauTension(vue.menaces)
   return (
-    <div className="plateau" style={{ '--tension': tension }}>
+    <div className="plateau" style={{ '--tension-globale': tension }}>
       <header className="plateau__entete">
         <span className="plateau__tour">Tour {vue.tour}</span>
         <span className="plateau__phase">{libellePhase(vue.phase)}</span>
