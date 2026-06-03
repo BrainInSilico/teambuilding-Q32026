@@ -9,5 +9,7 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: './src/ui/test-setup.js',
+    // Ignore les worktrees git temporaires (copies du projet) et builds.
+    exclude: ['**/node_modules/**', '**/dist/**', '**/.claude/**'],
   },
 })
