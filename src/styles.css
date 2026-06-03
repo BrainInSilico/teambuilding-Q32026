@@ -1,0 +1,10 @@
+/* Styles minimaux — l'ambiance complète arrive en T7. */
+:root {
+  color-scheme: dark;
+}
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #0b0e14;
+  color: #e6e6e6;
+}
