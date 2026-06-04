@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { defiPour } from './defis/registre.js'
+import Fond from './Fond.jsx'
+import { IMAGES } from './images.js'
 
 // Page autonome d'un défi (URL #/defi/<id>), jouable sur l'appareil du joueur.
 // On garde le MEILLEUR score et on l'affiche EN GRAND : le joueur l'annonce à
@@ -15,6 +17,7 @@ export default function PageDefi({ id }) {
 
   return (
     <div className="page-defi">
+      <Fond image={IMAGES[id]} />
       <header className="page-defi__entete">
         <h1>{defi.titre}</h1>
         <a href="#/" className="page-defi__retour">← écran principal</a>

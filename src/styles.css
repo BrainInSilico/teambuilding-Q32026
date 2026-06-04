@@ -32,6 +32,22 @@ body {
   padding: 24px 16px 64px;
 }
 
+/* --- Calque d'image en fond (habillage) + voile sombre pour la lisibilité --- */
+.fond {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background-size: cover;
+  background-position: center;
+}
+.fond::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(rgba(11, 14, 20, 0.74), rgba(11, 14, 20, 0.9));
+}
+
 /* --- Plateau : le fond se teinte de rouge à mesure que la tension monte --- */
 .plateau {
   position: relative;
@@ -43,7 +59,8 @@ body {
       rgba(226, 72, 61, calc(var(--tension-globale, 0) * 0.28)),
       transparent 60%
     ),
-    var(--carte);
+    rgba(22, 27, 38, 0.78);
+  backdrop-filter: blur(3px);
   border: 1px solid var(--trait);
   transition: background 600ms ease;
 }
@@ -203,7 +220,8 @@ body {
 .phase-statut__cle { color: #6b7689; font-size: 0.75rem; }
 
 .panneau, .assignation, .realisation, .score, .setup, .fin {
-  background: var(--carte);
+  background: rgba(22, 27, 38, 0.82);
+  backdrop-filter: blur(3px);
   border: 1px solid var(--trait);
   border-radius: 12px;
   padding: 16px 18px;
