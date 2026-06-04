@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { defiPour } from './defis/registre.js'
-import { ecouterScores } from './pont.js'
 
 // Phase réalisation : chaque menace a son défi.
 //  - défi digital → se joue sur sa PAGE dédiée (#/defi/<id>, ouvrable sur un
@@ -16,16 +15,6 @@ export default function Realisation({ menaces, assignation, onValider }) {
   const [resultats, setResultats] = useState(init)
 
   const poser = (id, x, n) => setResultats((r) => ({ ...r, [id]: { x, n } }))
-
-  // Réception auto des scores « Reporter » envoyés depuis les pages de défi
-  // (même appareil, autre onglet). Ne remplit que les menaces actives.
-  const [recus, setRecus] = useState({})
-  useEffect(() => {
-    return ecouterScores(({ menaceId, x, n }) => {
-      setResultats((r) => (menaceId in r ? { ...r, [menaceId]: { x, n } } : r))
-      setRecus((s) => ({ ...s, [menaceId]: true }))
-    })
-  }, [])
 
   return (
     <div className="realisation">
@@ -62,7 +51,6 @@ export default function Realisation({ menaces, assignation, onValider }) {
               />
               / {defi.n}
             </label>
-            {recus[m.id] && <span className="realisation__recu">✓ reporté</span>}
           </div>
         )
       })}

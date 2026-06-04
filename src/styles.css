@@ -333,7 +333,7 @@ button:hover { background: #243049; }
 /* --- Crypto : clé spécifique --- */
 .crypto__cle { color: #e0a83a; font-weight: 600; }
 
-/* --- Report auto entre onglets --- */
-.page-defi__report { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
-.page-defi__envoye { color: var(--calme); font-size: 0.85rem; }
-.realisation__recu { color: var(--calme); font-size: 0.8rem; }
+/* --- Score final à annoncer (report manuel) --- */
+.page-defi__report { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; }
+.page-defi__label { font-size: 0.85rem; color: #9aa6bd; }
+.page-defi__grand { font-size: 2.4rem; font-variant-numeric: tabular-nums; }

@@ -1,25 +1,16 @@
 import { useState } from 'react'
 import { defiPour } from './defis/registre.js'
-import { publierScore } from './pont.js'
 
-// Page autonome d'un défi (URL #/defi/<id>), ouvrable dans un onglet du même
-// appareil. Le défi se joue seul ; on garde le MEILLEUR score, puis « Reporter »
-// l'envoie automatiquement à la feuille de score (écran principal) via le pont.
+// Page autonome d'un défi (URL #/defi/<id>), jouable sur l'appareil du joueur.
+// On garde le MEILLEUR score et on l'affiche EN GRAND : le joueur l'annonce à
+// l'organisateur, qui le saisit sur la feuille de score (report manuel).
 export default function PageDefi({ id }) {
   const defi = defiPour(id)
   const [meilleur, setMeilleur] = useState(null) // { x, n }
-  const [envoye, setEnvoye] = useState(false)
 
   const rapporter = (x, n) => {
     const nn = n ?? defi.n
     setMeilleur((m) => (!m || x / nn > m.x / m.n ? { x, n: nn } : m))
-    setEnvoye(false)
-  }
-
-  const reporter = () => {
-    if (!meilleur) return
-    publierScore(id, meilleur.x, meilleur.n)
-    setEnvoye(true)
   }
 
   return (
@@ -33,16 +24,10 @@ export default function PageDefi({ id }) {
         <>
           <defi.Composant onTermine={rapporter} />
           <div className="page-defi__report">
-            <span>
-              Score à reporter :{' '}
-              <strong data-testid="score-a-reporter">
-                {meilleur ? `${meilleur.x} / ${meilleur.n}` : `– / ${defi.n}`}
-              </strong>
-            </span>
-            <button onClick={reporter} disabled={!meilleur}>
-              Reporter sur la feuille de score
-            </button>
-            {envoye && <span className="page-defi__envoye">✓ envoyé à l’écran principal</span>}
+            <span className="page-defi__label">Score à annoncer à l’organisateur</span>
+            <strong className="page-defi__grand" data-testid="score-final">
+              {meilleur ? `${meilleur.x} / ${meilleur.n}` : `– / ${defi.n}`}
+            </strong>
           </div>
         </>
       ) : (
