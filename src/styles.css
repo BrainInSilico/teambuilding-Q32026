@@ -324,3 +324,8 @@ button:hover { background: #243049; }
 .codename__mot { position: relative; }
 .codename__mot--apercu { opacity: 0.95; }
 .codename__teste { position: absolute; top: 1px; right: 3px; font-size: 0.7rem; color: #04140a; }
+
+/* --- Codename : annonce & grille 4×4 --- */
+.codename__annonce, .codename__indice { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 8px; font-size: 0.85rem; }
+.codename__annonce input[type="number"], .codename__indice input { width: 56px; }
+.codename__grille { grid-template-columns: repeat(4, 1fr); }
