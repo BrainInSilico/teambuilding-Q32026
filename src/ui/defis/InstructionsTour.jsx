@@ -18,9 +18,10 @@ export default function InstructionsTour() {
         </li>
         <li>Un <strong>étage</strong> = un dé posé dans l’ordre qui tient.</li>
         <li><strong>Règle des 5 s</strong> : un étage ne compte que s’il tient <strong>5 secondes</strong> sans s’effondrer.</li>
+        <li><strong>3 essais</strong> : si la tour s’effondre, on repart de zéro. On retient la <strong>meilleure tour</strong> (le plus d’étages tenus).</li>
       </ul>
       <p className="instructions__report">
-        À annoncer à l’organisateur : <strong>étages tenus 5 s</strong> sur le nombre d’étages tentés.
+        À annoncer à l’organisateur : <strong>étages tenus 5 s au meilleur essai</strong> sur le nombre d’étages tentés.
       </p>
     </div>
   )
