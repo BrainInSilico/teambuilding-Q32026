@@ -4,8 +4,8 @@ import { genererGrille } from './codename.js'
 import { creer, lancer, retourner, passer } from './jeuCodename.js'
 import { enregistrerDefi } from './registre.js'
 
-const TAILLE = 16
-const NB_ALLIES = 6
+const TAILLE = 25
+const NB_ALLIES = 8
 
 // Défi Codename — 1 écran, BASCULE de rôle, vraie mécanique de coups :
 //  • ANNONCEUR : voit les rôles + les cartes déjà testées. Donne un indice
