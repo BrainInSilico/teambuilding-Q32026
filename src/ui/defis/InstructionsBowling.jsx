@@ -14,10 +14,13 @@ export default function InstructionsBowling() {
         <li>Disposition : <strong>{s.disposition}</strong></li>
         <li>Nombre de gobelets : <strong>{s.gobelets}</strong></li>
         <li>Distance de tir minimale : <strong>{s.distance}</strong></li>
+        <li>La « boule » est un <strong>dé à 6 faces (d6)</strong>.</li>
+        <li><strong>3 essais</strong> : après chaque essai, on <strong>refait la figure</strong> et on recommence.</li>
+        <li>On retient l’<strong>essai le plus réussi</strong> (le plus de gobelets renversés).</li>
       </ul>
-      <p>Montez la pile, reculez à la distance imposée, lancez votre « boule » de fortune.</p>
+      <p>Montez la pile, reculez à la distance imposée, lancez le d6.</p>
       <p className="instructions__report">
-        À annoncer à l’organisateur : <strong>gobelets renversés</strong> sur <strong>{s.gobelets}</strong>.
+        À annoncer à l’organisateur : <strong>gobelets renversés au meilleur essai</strong> sur <strong>{s.gobelets}</strong>.
       </p>
     </div>
   )
