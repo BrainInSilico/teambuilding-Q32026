@@ -7,7 +7,11 @@ import { defiPour } from './defis/registre.js'
 //  - défi manuel  → saisie directe du score (physique).
 // Tous les défis tournent en parallèle ; on valide quand l'équipe a fini.
 export default function Realisation({ menaces, assignation, onValider }) {
-  const init = Object.fromEntries(menaces.map((m) => [m.id, { x: 0, n: defiPour(m.id).n }]))
+  // On ne traite QUE les menaces sur lesquelles l'équipe a placé des joueurs ;
+  // les autres montent (pas de score à saisir).
+  const menacesActives = menaces.filter((m) => (assignation[m.id] ?? []).length > 0)
+
+  const init = Object.fromEntries(menacesActives.map((m) => [m.id, { x: 0, n: defiPour(m.id).n }]))
   const [resultats, setResultats] = useState(init)
 
   const poser = (id, x, n) => setResultats((r) => ({ ...r, [id]: { x, n } }))
@@ -15,7 +19,10 @@ export default function Realisation({ menaces, assignation, onValider }) {
   return (
     <div className="realisation">
       <h2>Réalisation — relevez les défis</h2>
-      {menaces.map((m) => {
+      {menacesActives.length === 0 && (
+        <p className="realisation__vide">Aucun défi relevé ce tour : ces menaces vont monter.</p>
+      )}
+      {menacesActives.map((m) => {
         const defi = defiPour(m.id)
         const res = resultats[m.id]
         const affecte = (assignation[m.id] ?? []).join(', ')
