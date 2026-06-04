@@ -30,6 +30,10 @@ export const CONFIG = {
   integriteDepart: 0,
   integriteDeltaPerk: 5, // menace ramenée à 0
   integriteDeltaMalus: 10, // par menace saturée en fin de tour
+  // Dérive de l'Intégrité chaque fin de tour, selon l'état du système :
+  seuilCritique: 80, // une menace ≥ ce seuil ronge l'Intégrité
+  integriteDeriveBas: 4, // + par menace ≤ seuil T (sous contrôle)
+  integriteDeriveHaut: 4, // − par menace ≥ seuilCritique (hors de contrôle)
   ligneSurvie: 50, // en fin de partie : >= ligne → survie, sinon ARGOS gagne
   // Partie élastique.
   toursMin: 4,

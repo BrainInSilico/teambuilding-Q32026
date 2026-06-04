@@ -196,6 +196,18 @@ describe('finDeTour', () => {
     apres.menaces.slice(1).forEach((m) => expect(m.niveau).toBeGreaterThan(40))
   })
 
+  it('Intégrité MONTE quand les menaces sont basses (≤ T) en fin de tour', () => {
+    const etat = scenario({ tour: 2, seuilT: 30, niveaux: [10, 10, 10, 10, 10], integrite: 20 })
+    const apres = finDeTour(etat)
+    expect(apres.integrite).toBeGreaterThan(20)
+  })
+
+  it('Intégrité BAISSE quand des menaces sont critiques (≥ 80) sans saturer', () => {
+    const etat = scenario({ tour: 2, seuilT: 10, niveaux: [85, 85, 50, 50, 50], integrite: 50 })
+    const apres = finDeTour(etat)
+    expect(apres.integrite).toBeLessThan(50)
+  })
+
   it('victoire-purge : tour ≥ 3 et toutes ≤ T → fini, issue=purge', () => {
     const etat = scenario({ tour: 3, seuilT: 25, niveaux: [10, 10, 10, 10, 10] })
     const apres = finDeTour(etat)

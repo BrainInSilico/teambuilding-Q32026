@@ -129,6 +129,16 @@ export function finDeTour(etat) {
     )
   }
 
+  // Dérive de l'Intégrité selon l'état du système en fin de tour :
+  // chaque menace sous contrôle (≤ T) la restaure, chaque menace critique
+  // (≥ seuilCritique) la ronge. C'est ce qui fait vivre la jauge en continu.
+  let derive = 0
+  for (const m of menaces) {
+    if (m.niveau <= etat.seuilT) derive += CONFIG.integriteDeriveBas
+    else if (m.niveau >= CONFIG.seuilCritique) derive -= CONFIG.integriteDeriveHaut
+  }
+  integrite = clamp(integrite + derive, 0, 100)
+
   const base = { ...etat, menaces, integrite }
 
   // Victoire-purge (testée à partir du tour 3).
