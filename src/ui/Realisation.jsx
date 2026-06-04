@@ -16,6 +16,18 @@ export default function Realisation({ menaces, assignation, onValider }) {
 
   const poser = (id, x, n) => setResultats((r) => ({ ...r, [id]: { x, n } }))
 
+  // Saisie : on tape le chiffre directement (pas de flèches), et le focus
+  // sélectionne la valeur pour qu'elle soit remplacée d'un coup.
+  const versNombre = (v) => {
+    const chiffres = String(v).replace(/[^0-9]/g, '')
+    return chiffres === '' ? 0 : Number(chiffres)
+  }
+  const champProps = {
+    type: 'text',
+    inputMode: 'numeric',
+    onFocus: (e) => e.target.select(),
+  }
+
   return (
     <div className="realisation">
       <h2>Réalisation — relevez les défis</h2>
@@ -42,20 +54,18 @@ export default function Realisation({ menaces, assignation, onValider }) {
             <label className="realisation__manuel">
               {defi.labelX ?? 'score'}
               <input
-                type="number"
+                {...champProps}
                 data-testid={`res-x-${m.id}`}
                 value={res.x}
-                min={0}
-                onChange={(e) => poser(m.id, Number(e.target.value), res.n)}
+                onChange={(e) => poser(m.id, versNombre(e.target.value), res.n)}
               />
               /{' '}
               {defi.nVariable ? (
                 <input
-                  type="number"
+                  {...champProps}
                   data-testid={`res-n-${m.id}`}
                   value={res.n}
-                  min={1}
-                  onChange={(e) => poser(m.id, res.x, Number(e.target.value))}
+                  onChange={(e) => poser(m.id, res.x, versNombre(e.target.value))}
                 />
               ) : (
                 defi.n
