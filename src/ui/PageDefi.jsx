@@ -20,15 +20,17 @@ export default function PageDefi({ id }) {
         <a href="#/" className="page-defi__retour">← écran principal</a>
       </header>
 
-      {defi.type === 'digital' ? (
+      {defi.Composant ? (
         <>
           <defi.Composant onTermine={rapporter} />
-          <div className="page-defi__report">
-            <span className="page-defi__label">Score à annoncer à l’organisateur</span>
-            <strong className="page-defi__grand" data-testid="score-final">
-              {meilleur ? `${meilleur.x} / ${meilleur.n}` : `– / ${defi.n}`}
-            </strong>
-          </div>
+          {defi.type === 'digital' && (
+            <div className="page-defi__report">
+              <span className="page-defi__label">Score à annoncer à l’organisateur</span>
+              <strong className="page-defi__grand" data-testid="score-final">
+                {meilleur ? `${meilleur.x} / ${meilleur.n}` : `– / ${defi.n}`}
+              </strong>
+            </div>
+          )}
         </>
       ) : (
         <p>Défi physique — pas de page de jeu. Le score se saisit à la main sur l’écran principal.</p>

@@ -337,3 +337,7 @@ button:hover { background: #243049; }
 .page-defi__report { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; }
 .page-defi__label { font-size: 0.85rem; color: #9aa6bd; }
 .page-defi__grand { font-size: 2.4rem; font-variant-numeric: tabular-nums; }
+
+/* --- Pages d'instructions (défis physiques) --- */
+.instructions__liste { line-height: 1.8; }
+.instructions__report { margin-top: 12px; padding: 10px 12px; border-radius: 8px; background: rgba(74,168,255,0.12); border: 1px solid rgba(74,168,255,0.4); }

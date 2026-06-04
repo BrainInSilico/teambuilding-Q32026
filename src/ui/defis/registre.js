@@ -18,7 +18,17 @@ export function defiPour(menaceId) {
   return REGISTRE[menaceId] ?? { titre: menaceId, type: 'manuel', n: 10, labelX: 'réussite' }
 }
 
-// Bascule un défi en digital avec son composant (appelé par l'unité du défi).
-export function enregistrerDefi(menaceId, { Composant, n }) {
-  REGISTRE[menaceId] = { ...REGISTRE[menaceId], type: 'digital', Composant, ...(n ? { n } : {}) }
+// Associe un composant à un défi (appelé par l'unité du défi).
+//  - type 'digital'  : le composant produit un score (onTermine).
+//  - type 'physique' : le composant affiche des INSTRUCTIONS (mise en place) ;
+//    le score est saisi à la main. nVariable → on saisit aussi le total n.
+export function enregistrerDefi(menaceId, { Composant, n, type = 'digital', nVariable = false, labelX }) {
+  REGISTRE[menaceId] = {
+    ...REGISTRE[menaceId],
+    type,
+    Composant,
+    nVariable,
+    ...(n ? { n } : {}),
+    ...(labelX ? { labelX } : {}),
+  }
 }

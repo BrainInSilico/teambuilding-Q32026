@@ -61,6 +61,18 @@ describe('Realisation v3 (pages dédiées)', () => {
     expect(resultats.tour).toBeUndefined()
   })
 
+  it('défi physique avec page : lien + DOUBLE saisie (réussite ET total)', () => {
+    enregistrerDefi('bowling', { Composant: () => null, type: 'physique', nVariable: true, n: 10 })
+    const onValider = vi.fn()
+    render(<Realisation menaces={[{ id: 'bowling', nom: 'Instabilité' }]} assignation={{ bowling: ['A'] }} onValider={onValider} />)
+    const ligne = screen.getByTestId('defi-bowling')
+    expect(within(ligne).getByRole('link', { name: /ouvrir le défi/i })).toHaveAttribute('href', '#/defi/bowling')
+    fireEvent.change(screen.getByTestId('res-x-bowling'), { target: { value: '7' } })
+    fireEvent.change(screen.getByTestId('res-n-bowling'), { target: { value: '13' } })
+    fireEvent.click(screen.getByRole('button', { name: /valider les résultats/i }))
+    expect(onValider.mock.calls[0][0].bowling).toEqual({ x: 7, n: 13 })
+  })
+
   it('aucun défi assigné : message + valider possible (rien à saisir)', () => {
     const onValider = vi.fn()
     render(

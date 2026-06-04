@@ -19,8 +19,15 @@ describe('PageDefi', () => {
     expect(screen.getByTestId('score-final')).toHaveTextContent('4')
   })
 
-  it('défi manuel/inconnu → message « pas de page »', () => {
+  it('défi physique : rend la page d’instructions, sans bloc de score', () => {
+    enregistrerDefi('bowling', { Composant: () => <div>INSTRUCTIONS BOWLING</div>, type: 'physique', nVariable: true, n: 10 })
     render(<PageDefi id="bowling" />)
+    expect(screen.getByText('INSTRUCTIONS BOWLING')).toBeInTheDocument()
+    expect(screen.queryByTestId('score-final')).toBeNull()
+  })
+
+  it('défi sans page → message « pas de page »', () => {
+    render(<PageDefi id="tour" />)
     expect(screen.getByText(/physique|pas de page|manuel/i)).toBeInTheDocument()
   })
 })

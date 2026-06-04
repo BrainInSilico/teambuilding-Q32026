@@ -33,7 +33,7 @@ export default function Realisation({ menaces, assignation, onValider }) {
               {affecte && <em className="realisation__affecte"> ({affecte})</em>}
             </span>
 
-            {defi.type === 'digital' && (
+            {defi.Composant && (
               <a className="realisation__lien" href={`#/defi/${m.id}`} target="_blank" rel="noreferrer">
                 Ouvrir le défi ↗
               </a>
@@ -46,10 +46,20 @@ export default function Realisation({ menaces, assignation, onValider }) {
                 data-testid={`res-x-${m.id}`}
                 value={res.x}
                 min={0}
-                max={defi.n}
-                onChange={(e) => poser(m.id, Number(e.target.value), defi.n)}
+                onChange={(e) => poser(m.id, Number(e.target.value), res.n)}
               />
-              / {defi.n}
+              /{' '}
+              {defi.nVariable ? (
+                <input
+                  type="number"
+                  data-testid={`res-n-${m.id}`}
+                  value={res.n}
+                  min={1}
+                  onChange={(e) => poser(m.id, res.x, Number(e.target.value))}
+                />
+              ) : (
+                defi.n
+              )}
             </label>
           </div>
         )

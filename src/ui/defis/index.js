@@ -3,3 +3,4 @@
 import './Crypto.jsx'
 import './Cassebrique.jsx'
 import './Codename.jsx'
+import './InstructionsBowling.jsx'
