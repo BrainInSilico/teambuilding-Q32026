@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { nouveauTerrain, pas } from './cassebrique.js'
+import { nouveauTerrain, pas, MAX_BRIQUES } from './cassebrique.js'
 import { enregistrerDefi } from './registre.js'
 
 // Défi Arcade = Casse-brique. La balle accélère implicitement par la densité ;
@@ -11,7 +11,6 @@ export default function Cassebrique({ onTermine }) {
   const aireRef = useRef(null)
 
   const fini = etat.perdu || etat.cassees >= etat.total
-  const pourcent = etat.total ? Math.round((etat.cassees / etat.total) * 100) : 0
 
   // Boucle de jeu (setInterval : sûr en test, pas de rAF requis).
   useEffect(() => {
@@ -22,7 +21,7 @@ export default function Cassebrique({ onTermine }) {
 
   // Rapporte le score à chaque évolution.
   useEffect(() => {
-    onTermine(pourcent, 100)
+    onTermine(etat.cassees, MAX_BRIQUES)
   }, [etat.cassees, etat.perdu]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Déplacement de la raquette à la souris / au doigt.
@@ -42,7 +41,7 @@ export default function Cassebrique({ onTermine }) {
   return (
     <div className="cb">
       <div className="cb__hud">
-        <span data-testid="cb-score">{etat.cassees}/{etat.total} briques · {pourcent}%</span>
+        <span data-testid="cb-score">{etat.cassees}/{etat.total} briques · score {etat.cassees}/{MAX_BRIQUES}</span>
         {fini && <button onClick={rejouer}>Rejouer</button>}
       </div>
       <div
@@ -67,11 +66,11 @@ export default function Cassebrique({ onTermine }) {
           className="cb__raquette"
           style={{ left: `${etat.raquette.x}%`, top: `${etat.raquette.y}%`, width: `${etat.raquette.largeur}%` }}
         />
-        {fini && <div className="cb__fin">{etat.perdu ? 'Balle perdue' : 'Mur détruit !'} — {pourcent}/100</div>}
+        {fini && <div className="cb__fin">{etat.perdu ? 'Balle perdue' : 'Mur détruit !'} — score {etat.cassees}/{MAX_BRIQUES}</div>}
       </div>
       <p className="cb__aide">Bougez la raquette à la souris / au doigt. Cassez un maximum de briques.</p>
     </div>
   )
 }
 
-enregistrerDefi('arcade', { Composant: Cassebrique, n: 100 })
+enregistrerDefi('arcade', { Composant: Cassebrique, n: MAX_BRIQUES })

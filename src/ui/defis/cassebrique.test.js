@@ -38,6 +38,15 @@ describe('pas — collisions', () => {
     expect(e.balle.vy).toBeLessThan(0)
     expect(e.perdu).toBe(false)
   })
+
+  it('la balle ACCÉLÈRE quand elle casse une brique', () => {
+    const brique = { x: 45, y: 40, w: 10, h: 6, vivante: true }
+    const avant = { vx: 1, vy: -2 }
+    const e = pas(base({ balle: { x: 50, y: 47, vx: avant.vx, vy: avant.vy, r: 1 }, briques: [brique] }))
+    const vitesseAvant = Math.hypot(avant.vx, avant.vy)
+    const vitesseApres = Math.hypot(e.balle.vx, e.balle.vy)
+    expect(vitesseApres).toBeGreaterThan(vitesseAvant)
+  })
 })
 
 describe('nouveauTerrain — nombre de briques aléatoire', () => {

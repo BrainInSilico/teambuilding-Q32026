@@ -13,6 +13,10 @@ export const MAX_BRIQUES = COLS_MAX * RANGS_MAX
 
 const dansRect = (x, y, r) => x >= r.x && x <= r.x + r.w && y >= r.y && y <= r.y + r.h
 
+// La balle accélère à chaque brique cassée (plafonnée) → difficulté croissante.
+const ACCEL = 1.06
+const VITESSE_MAX = 6
+
 // Avance d'un pas : déplacement + rebonds murs/raquette/briques. Fonction pure.
 export function pas(etat) {
   const b = { ...etat.balle }
@@ -43,6 +47,11 @@ export function pas(etat) {
     briques = briques.map((br, k) => (k === i ? { ...br, vivante: false } : br))
     cassees += 1
     b.vy = -b.vy
+    // Accélération plafonnée.
+    const v = Math.hypot(b.vx, b.vy)
+    const f = Math.min(ACCEL, VITESSE_MAX / v)
+    b.vx *= f
+    b.vy *= f
   }
 
   return { ...etat, balle: b, briques, cassees, perdu }
