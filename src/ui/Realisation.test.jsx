@@ -1,7 +1,9 @@
 import { describe, it, expect, vi } from 'vitest'
+import { act } from 'react'
 import { render, screen, fireEvent, within } from '@testing-library/react'
 import Realisation from './Realisation.jsx'
 import { enregistrerDefi } from './defis/registre.js'
+import * as pont from './pont.js'
 
 describe('Realisation v3 (pages dédiées)', () => {
   it('défi manuel assigné : saisie du score, transmis au valider', () => {
@@ -59,6 +61,19 @@ describe('Realisation v3 (pages dédiées)', () => {
     const resultats = onValider.mock.calls[0][0]
     expect(resultats.bowling).toBeDefined()
     expect(resultats.tour).toBeUndefined()
+  })
+
+  it('remplit automatiquement le score reçu via le pont (bouton Reporter)', () => {
+    let cb
+    vi.spyOn(pont, 'ecouterScores').mockImplementation((fn) => {
+      cb = fn
+      return () => {}
+    })
+    enregistrerDefi('arcade', { Composant: () => null, n: 28 })
+    render(<Realisation menaces={[{ id: 'arcade', nom: 'Surcharge' }]} assignation={{ arcade: ['A'] }} onValider={() => {}} />)
+    act(() => cb({ menaceId: 'arcade', x: 17, n: 28 }))
+    expect(screen.getByTestId('res-x-arcade')).toHaveValue(17)
+    pont.ecouterScores.mockRestore()
   })
 
   it('aucun défi assigné : message + valider possible (rien à saisir)', () => {

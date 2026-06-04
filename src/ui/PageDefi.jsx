@@ -1,12 +1,26 @@
 import { useState } from 'react'
 import { defiPour } from './defis/registre.js'
+import { publierScore } from './pont.js'
 
-// Page autonome d'un défi (URL #/defi/<id>), ouvrable sur un autre appareil.
-// Le défi se joue seul ; le score final est À REPORTER À LA MAIN sur l'écran
-// principal (pas de synchro réseau — offline).
+// Page autonome d'un défi (URL #/defi/<id>), ouvrable dans un onglet du même
+// appareil. Le défi se joue seul ; on garde le MEILLEUR score, puis « Reporter »
+// l'envoie automatiquement à la feuille de score (écran principal) via le pont.
 export default function PageDefi({ id }) {
   const defi = defiPour(id)
-  const [score, setScore] = useState(null)
+  const [meilleur, setMeilleur] = useState(null) // { x, n }
+  const [envoye, setEnvoye] = useState(false)
+
+  const rapporter = (x, n) => {
+    const nn = n ?? defi.n
+    setMeilleur((m) => (!m || x / nn > m.x / m.n ? { x, n: nn } : m))
+    setEnvoye(false)
+  }
+
+  const reporter = () => {
+    if (!meilleur) return
+    publierScore(id, meilleur.x, meilleur.n)
+    setEnvoye(true)
+  }
 
   return (
     <div className="page-defi">
@@ -17,12 +31,18 @@ export default function PageDefi({ id }) {
 
       {defi.type === 'digital' ? (
         <>
-          <defi.Composant onTermine={(x, n) => setScore({ x, n: n ?? defi.n })} />
+          <defi.Composant onTermine={rapporter} />
           <div className="page-defi__report">
-            Score à reporter :{' '}
-            <strong data-testid="score-a-reporter">
-              {score ? `${score.x} / ${score.n}` : `– / ${defi.n}`}
-            </strong>
+            <span>
+              Score à reporter :{' '}
+              <strong data-testid="score-a-reporter">
+                {meilleur ? `${meilleur.x} / ${meilleur.n}` : `– / ${defi.n}`}
+              </strong>
+            </span>
+            <button onClick={reporter} disabled={!meilleur}>
+              Reporter sur la feuille de score
+            </button>
+            {envoye && <span className="page-defi__envoye">✓ envoyé à l’écran principal</span>}
           </div>
         </>
       ) : (
