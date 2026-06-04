@@ -329,3 +329,6 @@ button:hover { background: #243049; }
 .codename__annonce, .codename__indice { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 8px; font-size: 0.85rem; }
 .codename__annonce input[type="number"], .codename__indice input { width: 56px; }
 .codename__grille { grid-template-columns: repeat(4, 1fr); }
+
+/* --- Crypto : clé spécifique --- */
+.crypto__cle { color: #e0a83a; font-weight: 600; }

@@ -63,6 +63,7 @@ export default function Crypto({ paliersInitiaux, onTermine }) {
         <span className="crypto__crib">
           1ʳᵉ lettre du mot : <strong data-testid="crypto-crib">{courant.crib}</strong>
         </span>
+        {courant.aide && <span className="crypto__cle">{courant.aide}</span>}
       </div>
       <input
         data-testid="crypto-saisie"

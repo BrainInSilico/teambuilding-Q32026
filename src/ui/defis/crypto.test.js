@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { chiffrer, verifier, genererCrypto, THEMES } from './crypto.js'
+import { chiffrer, verifier, genererCrypto, THEMES, FAMILLES } from './crypto.js'
 import { mulberry32 } from '../../engine/rng.js'
 
 describe('chiffrer', () => {
@@ -12,6 +12,23 @@ describe('chiffrer', () => {
   })
   it('Miroir renverse le texte', () => {
     expect(chiffrer('SOLEIL', { type: 'miroir' })).toBe('LIELOS')
+  })
+  it('Vigenère décale selon une clé répétée', () => {
+    // clé BCDE : +1 +2 +3 +4 sur AAAA
+    expect(chiffrer('AAAA', { type: 'vigenere', cle: 'BCDE' })).toBe('BCDE')
+  })
+  it('Substitution applique la permutation fournie', () => {
+    const perm = 'BCDEFGHIJKLMNOPQRSTUVWXYZA' // = César +1
+    expect(chiffrer('ABC', { type: 'substitution', perm })).toBe('BCD')
+  })
+})
+
+describe('familles diversifiées', () => {
+  it('FAMILLES couvre César, Atbash, miroir, Vigenère et substitution', () => {
+    const noms = Object.values(FAMILLES).join(' ').toLowerCase()
+    expect(noms).toMatch(/césar|cesar/)
+    expect(noms).toMatch(/vigen/)
+    expect(noms).toMatch(/substitution/)
   })
 })
 

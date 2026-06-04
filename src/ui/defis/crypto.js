@@ -21,6 +21,17 @@ export function chiffrer(clair, methode) {
       return t.split('').reverse().join('')
     case 'cesar-miroir':
       return cesar(t, methode.k).split('').reverse().join('')
+    case 'vigenere': {
+      const cle = methode.cle
+      let j = 0
+      return t.replace(/[A-Z]/g, (c) => {
+        const k = cle.charCodeAt(j % cle.length) - A
+        j++
+        return String.fromCharCode(((c.charCodeAt(0) - A + k) % 26) + A)
+      })
+    }
+    case 'substitution':
+      return t.replace(/[A-Z]/g, (c) => methode.perm[c.charCodeAt(0) - A])
     default:
       return t
   }
@@ -52,27 +63,19 @@ export const THEMES = [
   ['NUAGE', 'ORAGE', 'TONNERRE', 'BROUILLARD', 'GIVRE', 'ECLAIR', 'AVERSE', 'BRUME', 'GRELON', 'NEIGE'],
 ]
 
-const FAMILLES = {
+export const FAMILLES = {
   cesar: 'Décalage d’alphabet (type César)',
   atbash: 'Miroir d’alphabet (A↔Z, B↔Y…)',
   miroir: 'Texte renversé',
   'cesar-miroir': 'Décalage + texte renversé',
+  vigenere: 'Décalage glissant (Vigenère, clé donnée)',
+  substitution: 'Substitution (chaque lettre → une autre, clé partielle)',
 }
 
-const TYPES = ['cesar', 'atbash', 'miroir', 'cesar-miroir']
-
-// Tire une méthode ALÉATOIRE (type + paramètres). Le décalage César peut être
-// positif OU négatif (sens à deviner). Aucun ordre de difficulté imposé : un
-// joueur ne peut pas pré-construire de table valable d'un tour à l'autre.
-function tirerMethode(rng) {
-  const type = TYPES[Math.floor(rng() * TYPES.length)]
-  if (type === 'cesar' || type === 'cesar-miroir') {
-    const ampleur = 1 + Math.floor(rng() * 24)
-    const signe = rng() < 0.5 ? 1 : -1
-    return { type, k: signe * ampleur }
-  }
-  return { type }
-}
+const TYPES = ['cesar', 'atbash', 'miroir', 'cesar-miroir', 'vigenere', 'substitution']
+const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
+// Clés Vigenère courtes, universelles, sans accent ni nom propre.
+const CLES = ['SEL', 'MER', 'VENT', 'NEIGE', 'SABLE', 'PIN', 'ROC', 'LUNE']
 
 // Mélange Fisher-Yates piloté par le rng.
 function melanger(arr, rng) {
@@ -82,6 +85,39 @@ function melanger(arr, rng) {
     ;[a[i], a[j]] = [a[j], a[i]]
   }
   return a
+}
+
+// Tire une méthode ALÉATOIRE (type + paramètres). César ±N (sens à deviner),
+// Vigenère (clé tirée), substitution (permutation aléatoire). Aucun ordre fixe :
+// un joueur ne peut pas pré-construire de table valable d'un tour à l'autre.
+function tirerMethode(rng) {
+  const type = TYPES[Math.floor(rng() * TYPES.length)]
+  if (type === 'cesar' || type === 'cesar-miroir') {
+    const ampleur = 1 + Math.floor(rng() * 24)
+    const signe = rng() < 0.5 ? 1 : -1
+    return { type, k: signe * ampleur }
+  }
+  if (type === 'vigenere') return { type, cle: melanger(CLES, rng)[0] }
+  if (type === 'substitution') return { type, perm: melanger(ALPHABET, rng).join('') }
+  return { type }
+}
+
+// Aide spécifique à la famille (en plus du crib 1ʳᵉ lettre).
+function aideMethode(methode, clair) {
+  if (methode.type === 'vigenere') return `clé : ${methode.cle}`
+  if (methode.type === 'substitution') {
+    // Révèle quelques correspondances (chiffré → clair) tirées du mot.
+    const vues = []
+    for (const L of clair) {
+      if (vues.length >= 3) break
+      if (!vues.some((v) => v.endsWith(L))) {
+        const ciph = methode.perm[L.charCodeAt(0) - A]
+        vues.push(`${ciph}→${L}`)
+      }
+    }
+    return `clé partielle : ${vues.join(' · ')}`
+  }
+  return ''
 }
 
 export function genererCrypto(rng, n = 5) {
@@ -96,6 +132,7 @@ export function genererCrypto(rng, n = 5) {
       chiffre: chiffrer(clair, methode),
       famille: FAMILLES[methode.type], // aide : on nomme la famille, pas la clé
       crib: clair[0], // aide : une lettre déchiffrée (point d'entrée)
+      aide: aideMethode(methode, clair), // aide spécifique (clé Vigenère / clé partielle)
     }
   })
 }
