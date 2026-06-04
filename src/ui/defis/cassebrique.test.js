@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { nouveauTerrain, pas, MIN_BRIQUES, MAX_BRIQUES } from './cassebrique.js'
+import { nouveauTerrain, pas, accelPour, MIN_BRIQUES, MAX_BRIQUES } from './cassebrique.js'
 import { mulberry32 } from '../../engine/rng.js'
 
 const base = (over = {}) => ({
@@ -10,6 +10,7 @@ const base = (over = {}) => ({
   briques: [],
   cassees: 0,
   perdu: false,
+  accel: 1.06,
   ...over,
 })
 
@@ -39,13 +40,24 @@ describe('pas — collisions', () => {
     expect(e.perdu).toBe(false)
   })
 
-  it('la balle ACCÉLÈRE quand elle casse une brique', () => {
+  it('la balle ACCÉLÈRE (selon etat.accel) quand elle casse une brique', () => {
     const brique = { x: 45, y: 40, w: 10, h: 6, vivante: true }
     const avant = { vx: 1, vy: -2 }
-    const e = pas(base({ balle: { x: 50, y: 47, vx: avant.vx, vy: avant.vy, r: 1 }, briques: [brique] }))
+    const e = pas(base({ balle: { x: 50, y: 47, vx: avant.vx, vy: avant.vy, r: 1 }, briques: [brique], accel: 1.2 }))
     const vitesseAvant = Math.hypot(avant.vx, avant.vy)
     const vitesseApres = Math.hypot(e.balle.vx, e.balle.vy)
-    expect(vitesseApres).toBeGreaterThan(vitesseAvant)
+    expect(vitesseApres).toBeCloseTo(vitesseAvant * 1.2, 5)
+  })
+})
+
+describe('accelPour — accélération selon le nombre de briques', () => {
+  it('plus de briques → accélération plus douce', () => {
+    expect(accelPour(10)).toBeGreaterThan(accelPour(28))
+    expect(accelPour(28)).toBeGreaterThan(1)
+  })
+  it('nouveauTerrain stocke une accel cohérente avec son total', () => {
+    const t = nouveauTerrain(mulberry32(42))
+    expect(t.accel).toBeCloseTo(accelPour(t.total), 6)
   })
 })
 

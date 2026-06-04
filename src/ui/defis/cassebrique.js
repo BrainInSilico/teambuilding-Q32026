@@ -14,8 +14,13 @@ export const MAX_BRIQUES = COLS_MAX * RANGS_MAX
 const dansRect = (x, y, r) => x >= r.x && x <= r.x + r.w && y >= r.y && y <= r.y + r.h
 
 // La balle accélère à chaque brique cassée (plafonnée) → difficulté croissante.
-const ACCEL = 1.06
+// L'accélération dépend du nombre de briques au départ : PLUS de briques →
+// accélération plus DOUCE (sinon ce serait injouable sur un gros tirage).
+const ACCEL_BASE = 0.8
 const VITESSE_MAX = 6
+export function accelPour(total) {
+  return 1 + ACCEL_BASE / total
+}
 
 // Avance d'un pas : déplacement + rebonds murs/raquette/briques. Fonction pure.
 export function pas(etat) {
@@ -47,9 +52,10 @@ export function pas(etat) {
     briques = briques.map((br, k) => (k === i ? { ...br, vivante: false } : br))
     cassees += 1
     b.vy = -b.vy
-    // Accélération plafonnée.
+    // Accélération plafonnée (douceur dépendant du tirage, via etat.accel).
+    const accel = etat.accel ?? 1.06
     const v = Math.hypot(b.vx, b.vy)
-    const f = Math.min(ACCEL, VITESSE_MAX / v)
+    const f = Math.min(accel, VITESSE_MAX / v)
     b.vx *= f
     b.vy *= f
   }
@@ -78,14 +84,18 @@ export function nouveauTerrain(rng = Math.random) {
       })
     }
   }
+  const total = briques.length
+  // Vitesse initiale plus lente quand il y a plus de briques.
+  const mult = Math.max(0.7, Math.min(1.3, 16 / total))
   return {
     L,
     H,
-    balle: { x: 50, y: 70, vx: rng() < 0.5 ? -1.4 : 1.4, vy: -1.8, r: 1 },
+    balle: { x: 50, y: 70, vx: (rng() < 0.5 ? -1.4 : 1.4) * mult, vy: -1.8 * mult, r: 1 },
     raquette: { x: 40, largeur: 20, y: 95 },
     briques,
     cassees: 0,
     perdu: false,
-    total: briques.length,
+    total,
+    accel: accelPour(total),
   }
 }

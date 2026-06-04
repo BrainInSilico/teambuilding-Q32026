@@ -7,7 +7,7 @@
 // Les composants digitaux sont injectés par leurs unités respectives via
 // enregistrerDefi(). Par défaut tout est manuel → la boucle reste jouable.
 const REGISTRE = {
-  arcade: { titre: 'Arcade — casse-brique', type: 'manuel', n: 28, labelX: 'briques cassées' },
+  arcade: { titre: 'Arcade — casse-brique', type: 'manuel', n: 100, labelX: 'réussite %' },
   codename: { titre: 'Codename', type: 'manuel', n: 8, labelX: 'mots trouvés' },
   bowling: { titre: 'Bowling gobelets', type: 'manuel', n: 10, labelX: 'quilles tombées' },
   tour: { titre: 'La Tour', type: 'manuel', n: 8, labelX: 'étages tenus 5 s' },
