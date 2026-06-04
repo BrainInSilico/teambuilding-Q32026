@@ -5,13 +5,13 @@
 // Budget = (nb d'alliés − 1) coups → il FAUT des indices multi-alliés pour
 // tout trouver.
 
-export function creer(grille) {
+export function creer(grille, coupsMod = 0) {
   const nbAllies = grille.filter((c) => c.role === 'allie').length
   return {
     grille,
     reveles: grille.map(() => false),
     nbAllies,
-    coupsRestants: nbAllies - 1,
+    coupsRestants: Math.max(1, nbAllies - 1 + coupsMod),
     nombre: null, // nombre annoncé du coup courant
     trouvesCeCoup: 0,
     trouves: 0,

@@ -5,8 +5,8 @@ import { enregistrerDefi } from './registre.js'
 
 // Défi PHYSIQUE : la page tire et affiche une mise en place aléatoire. Le score
 // (gobelets renversés / total) est annoncé puis saisi à la main.
-export default function InstructionsBowling() {
-  const s = useMemo(() => setupBowling(mulberry32((Math.random() * 1e9) | 0)), [])
+export default function InstructionsBowling({ difficulte = 'normal' }) {
+  const s = useMemo(() => setupBowling(mulberry32((Math.random() * 1e9) | 0), difficulte), [difficulte])
   return (
     <div className="instructions" data-testid="instr-bowling">
       <h2>Mise en place</h2>
@@ -15,7 +15,7 @@ export default function InstructionsBowling() {
         <li>Nombre de gobelets : <strong>{s.gobelets}</strong></li>
         <li>Distance de tir minimale : <strong>{s.distance}</strong></li>
         <li>La « boule » est un <strong>dé à 6 faces (d6)</strong>.</li>
-        <li><strong>3 essais</strong> : après chaque essai, on <strong>refait la figure</strong> et on recommence.</li>
+        <li><strong>{s.essais} essais</strong> : après chaque essai, on <strong>refait la figure</strong> et on recommence.</li>
         <li>On retient l’<strong>essai le plus réussi</strong> (le plus de gobelets renversés).</li>
       </ul>
       <p>Montez la pile, reculez à la distance imposée, lancez le d6.</p>

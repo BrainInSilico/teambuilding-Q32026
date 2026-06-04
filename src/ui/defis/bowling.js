@@ -10,8 +10,11 @@ export const DISPOSITIONS = [
 ]
 export const DISTANCES = ['2 m', '2,5 m', '3 m']
 
-export function setupBowling(rng = Math.random) {
-  const d = DISPOSITIONS[Math.floor(rng() * DISPOSITIONS.length)]
+// Difficulté : entraînement = petites figures (≤ 9 gobelets) ; épique = 2 essais.
+export function setupBowling(rng = Math.random, difficulte = 'normal') {
+  const pool = difficulte === 'entrainement' ? DISPOSITIONS.filter((d) => d.gobelets <= 9) : DISPOSITIONS
+  const d = pool[Math.floor(rng() * pool.length)]
   const distance = DISTANCES[Math.floor(rng() * DISTANCES.length)]
-  return { disposition: d.nom, gobelets: d.gobelets, distance }
+  const essais = difficulte === 'epique' ? 2 : 3
+  return { disposition: d.nom, gobelets: d.gobelets, distance, essais }
 }

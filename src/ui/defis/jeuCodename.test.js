@@ -20,6 +20,10 @@ describe('jeuCodename', () => {
     expect(e.phase).toBe('annonce')
   })
 
+  it('creer accepte un modificateur de coups (ex. −1 en épique)', () => {
+    expect(creer(grille, -1).coupsRestants).toBe(2) // 4 − 1 − 1
+  })
+
   it('lancer un indice → phase devine avec le nombre annoncé', () => {
     const e = lancer(creer(grille), 2)
     expect(e.phase).toBe('devine')

@@ -6,6 +6,12 @@ import { enregistrerDefi } from './registre.js'
 
 const TAILLE = 25
 const NB_ALLIES = 8
+// Difficulté : nombre d'assassins + modificateur de coups.
+const DIFF = {
+  entrainement: { nbPieges: 1, coupsMod: 0 },
+  normal: { nbPieges: 2, coupsMod: 0 },
+  epique: { nbPieges: 3, coupsMod: -1 },
+}
 
 // Défi Codename — 1 écran, BASCULE de rôle, vraie mécanique de coups :
 //  • ANNONCEUR : voit les rôles + les cartes déjà testées. Donne un indice
@@ -13,12 +19,19 @@ const NB_ALLIES = 8
 //  • DEVINEUR  : retourne des cartes. Le coup finit quand il a trouvé le nombre
 //    annoncé d'alliés, ou dès un neutre. Assassin = game over.
 // Budget = (alliés − 1) coups → il faut des indices multi-alliés.
-export default function Codename({ grilleInitiale, onTermine }) {
+export default function Codename({ grilleInitiale, onTermine, difficulte = 'normal' }) {
+  const conf = DIFF[difficulte] ?? DIFF.normal
   const grille = useMemo(
-    () => grilleInitiale ?? genererGrille(mulberry32((Math.random() * 1e9) | 0), { taille: TAILLE, nbAllies: NB_ALLIES }),
-    [grilleInitiale],
+    () =>
+      grilleInitiale ??
+      genererGrille(mulberry32((Math.random() * 1e9) | 0), {
+        taille: TAILLE,
+        nbAllies: NB_ALLIES,
+        nbPieges: conf.nbPieges,
+      }),
+    [grilleInitiale], // eslint-disable-line react-hooks/exhaustive-deps
   )
-  const [jeu, setJeu] = useState(() => creer(grille))
+  const [jeu, setJeu] = useState(() => creer(grille, conf.coupsMod))
   const [vue, setVue] = useState('annonceur')
   const [mot, setMot] = useState('')
   const [nombre, setNombre] = useState(1)

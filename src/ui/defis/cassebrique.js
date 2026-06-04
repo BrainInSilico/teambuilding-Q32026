@@ -65,8 +65,11 @@ export function pas(etat) {
 
 const entre = (rng, lo, hi) => lo + Math.floor(rng() * (hi - lo + 1))
 
+// La balle est plus rapide quand la difficulté monte.
+const VITESSE_DIFF = { entrainement: 0.85, normal: 1, epique: 1.2 }
+
 // Terrain initial : grille de briques (taille TIRÉE au hasard), balle au centre.
-export function nouveauTerrain(rng = Math.random) {
+export function nouveauTerrain(rng = Math.random, difficulte = 'normal') {
   const cols = entre(rng, COLS_MIN, COLS_MAX)
   const rangs = entre(rng, RANGS_MIN, RANGS_MAX)
   const margeX = 6
@@ -85,8 +88,8 @@ export function nouveauTerrain(rng = Math.random) {
     }
   }
   const total = briques.length
-  // Vitesse initiale plus lente quand il y a plus de briques.
-  const mult = Math.max(0.7, Math.min(1.3, 16 / total))
+  // Vitesse initiale plus lente quand il y a plus de briques, et modulée par la difficulté.
+  const mult = Math.max(0.7, Math.min(1.3, 16 / total)) * (VITESSE_DIFF[difficulte] ?? 1)
   return {
     L,
     H,

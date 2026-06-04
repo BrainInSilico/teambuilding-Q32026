@@ -73,6 +73,16 @@ export const FAMILLES = {
 }
 
 const TYPES = ['cesar', 'atbash', 'miroir', 'cesar-miroir', 'vigenere', 'substitution']
+
+// Difficulté : nombre d'énigmes + familles autorisées.
+//  entraînement : 4 énigmes simples (César / miroir / Atbash).
+//  normal       : 5 énigmes, toutes les familles.
+//  épique        : 6 énigmes, sans le César « nu » (les plus dures dominent).
+const CRYPTO_DIFF = {
+  entrainement: { n: 4, types: ['cesar', 'miroir', 'atbash'] },
+  normal: { n: 5, types: TYPES },
+  epique: { n: 6, types: ['atbash', 'miroir', 'cesar-miroir', 'vigenere', 'substitution'] },
+}
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 // Clés Vigenère courtes, universelles, sans accent ni nom propre.
 const CLES = ['SEL', 'MER', 'VENT', 'NEIGE', 'SABLE', 'PIN', 'ROC', 'LUNE']
@@ -90,8 +100,8 @@ function melanger(arr, rng) {
 // Tire une méthode ALÉATOIRE (type + paramètres). César ±N (sens à deviner),
 // Vigenère (clé tirée), substitution (permutation aléatoire). Aucun ordre fixe :
 // un joueur ne peut pas pré-construire de table valable d'un tour à l'autre.
-function tirerMethode(rng) {
-  const type = TYPES[Math.floor(rng() * TYPES.length)]
+function tirerMethode(rng, types = TYPES) {
+  const type = types[Math.floor(rng() * types.length)]
   if (type === 'cesar' || type === 'cesar-miroir') {
     const ampleur = 1 + Math.floor(rng() * 24)
     const signe = rng() < 0.5 ? 1 : -1
@@ -120,13 +130,14 @@ function aideMethode(methode, clair) {
   return ''
 }
 
-export function genererCrypto(rng, n = 5) {
+export function genererCrypto(rng, difficulte = 'normal') {
+  const conf = CRYPTO_DIFF[difficulte] ?? CRYPTO_DIFF.normal
   // Un seul champ lexical par partie (non précisé aux joueurs, mais signalé) :
   // une fois un mot cassé, on peut deviner le thème → aide à la déduction.
   const theme = THEMES[Math.floor(rng() * THEMES.length)]
-  const mots = melanger(theme, rng).slice(0, n)
+  const mots = melanger(theme, rng).slice(0, conf.n)
   return mots.map((clair) => {
-    const methode = tirerMethode(rng)
+    const methode = tirerMethode(rng, conf.types)
     return {
       clair,
       chiffre: chiffrer(clair, methode),

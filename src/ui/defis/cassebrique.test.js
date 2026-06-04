@@ -61,6 +61,17 @@ describe('accelPour — accélération selon le nombre de briques', () => {
   })
 })
 
+describe('difficulté — la balle va plus vite quand la difficulté augmente', () => {
+  const vitesse = (t) => Math.hypot(t.balle.vx, t.balle.vy)
+  it('épique > normal > entrainement (même seed)', () => {
+    const e = vitesse(nouveauTerrain(mulberry32(42), 'entrainement'))
+    const n = vitesse(nouveauTerrain(mulberry32(42), 'normal'))
+    const ep = vitesse(nouveauTerrain(mulberry32(42), 'epique'))
+    expect(ep).toBeGreaterThan(n)
+    expect(n).toBeGreaterThan(e)
+  })
+})
+
 describe('nouveauTerrain — nombre de briques aléatoire', () => {
   it('génère un nombre de briques dans [MIN, MAX], toutes vivantes', () => {
     const t = nouveauTerrain(mulberry32(42))

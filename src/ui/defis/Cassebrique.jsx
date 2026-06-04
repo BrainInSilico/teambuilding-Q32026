@@ -4,8 +4,8 @@ import { enregistrerDefi } from './registre.js'
 
 // Défi Arcade = Casse-brique. La balle accélère implicitement par la densité ;
 // score = briques cassées / total. Aucune « bonne réponse » détenue par le MJ.
-export default function Cassebrique({ onTermine }) {
-  const [etat, setEtat] = useState(nouveauTerrain)
+export default function Cassebrique({ onTermine, difficulte = 'normal' }) {
+  const [etat, setEtat] = useState(() => nouveauTerrain(undefined, difficulte))
   const etatRef = useRef(etat)
   etatRef.current = etat
   const aireRef = useRef(null)
@@ -37,7 +37,7 @@ export default function Cassebrique({ onTermine }) {
     }))
   }
 
-  const rejouer = () => setEtat(nouveauTerrain())
+  const rejouer = () => setEtat(nouveauTerrain(undefined, difficulte))
 
   return (
     <div className="cb">

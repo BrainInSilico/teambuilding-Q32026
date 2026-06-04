@@ -7,10 +7,10 @@ const N = 5
 
 // Défi Crypto : déchiffrer des paliers de difficulté croissante. Auto-vérifié.
 // `paliersInitiaux` permet d'injecter un jeu déterministe en test.
-export default function Crypto({ paliersInitiaux, onTermine }) {
+export default function Crypto({ paliersInitiaux, onTermine, difficulte = 'normal' }) {
   const paliers = useMemo(
-    () => paliersInitiaux ?? genererCrypto(mulberry32((Math.random() * 1e9) | 0), N),
-    [paliersInitiaux],
+    () => paliersInitiaux ?? genererCrypto(mulberry32((Math.random() * 1e9) | 0), difficulte),
+    [paliersInitiaux, difficulte],
   )
   const [index, setIndex] = useState(0)
   const [resolus, setResolus] = useState(0)
@@ -80,4 +80,6 @@ export default function Crypto({ paliersInitiaux, onTermine }) {
 }
 
 // Branche le défi sur la menace « crypto ».
-enregistrerDefi('crypto', { Composant: Crypto, n: N })
+// nVariable : le nombre de paliers dépend de la difficulté (4/5/6) → on saisit
+// aussi le total sur la feuille de score.
+enregistrerDefi('crypto', { Composant: Crypto, n: N, nVariable: true })
