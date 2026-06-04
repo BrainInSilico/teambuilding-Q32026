@@ -21,7 +21,7 @@ export default function App() {
       <>
         <Fond image={IMAGES.lethee} />
         <div className="app">
-          <Setup onDemarrer={({ joueurs, seed }) => dispatch({ type: 'demarrer', seed, joueurs })} />
+          <Setup onDemarrer={({ joueurs, seed, difficulte }) => dispatch({ type: 'demarrer', seed, joueurs, difficulte })} />
         </div>
       </>
     )
@@ -74,6 +74,7 @@ export default function App() {
         <Realisation
           menaces={vue.menaces}
           assignation={etat.assignation}
+          difficulte={etat.difficulte}
           onValider={(resultats) => dispatch({ type: 'validerResultats', resultats })}
         />
       )}

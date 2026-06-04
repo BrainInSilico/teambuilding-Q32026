@@ -6,7 +6,7 @@ import { IMAGES } from './images.js'
 // Page autonome d'un défi (URL #/defi/<id>), jouable sur l'appareil du joueur.
 // On garde le MEILLEUR score et on l'affiche EN GRAND : le joueur l'annonce à
 // l'organisateur, qui le saisit sur la feuille de score (report manuel).
-export default function PageDefi({ id }) {
+export default function PageDefi({ id, difficulte = 'normal' }) {
   const defi = defiPour(id)
   const [meilleur, setMeilleur] = useState(null) // { x, n }
 
@@ -25,7 +25,7 @@ export default function PageDefi({ id }) {
 
       {defi.Composant ? (
         <>
-          <defi.Composant onTermine={rapporter} />
+          <defi.Composant onTermine={rapporter} difficulte={difficulte} />
           {defi.type === 'digital' && (
             <div className="page-defi__report">
               <span className="page-defi__label">Score à annoncer à l’organisateur</span>

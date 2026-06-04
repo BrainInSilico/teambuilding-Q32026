@@ -35,4 +35,19 @@ describe('Setup', () => {
     fireEvent.click(screen.getByRole('button', { name: /démarrer/i }))
     expect(onDemarrer.mock.calls[0][0].seed).toBeUndefined()
   })
+
+  it('difficulté normale par défaut', () => {
+    const onDemarrer = vi.fn()
+    render(<Setup onDemarrer={onDemarrer} />)
+    fireEvent.click(screen.getByRole('button', { name: /démarrer/i }))
+    expect(onDemarrer.mock.calls[0][0].difficulte).toBe('normal')
+  })
+
+  it('on peut choisir la difficulté épique', () => {
+    const onDemarrer = vi.fn()
+    render(<Setup onDemarrer={onDemarrer} />)
+    fireEvent.click(screen.getByRole('button', { name: /épique/i }))
+    fireEvent.click(screen.getByRole('button', { name: /démarrer/i }))
+    expect(onDemarrer.mock.calls[0][0].difficulte).toBe('epique')
+  })
 })

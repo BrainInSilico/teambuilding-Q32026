@@ -6,7 +6,7 @@ import { defiPour } from './defis/registre.js'
 //    autre appareil). Ici : lien d'ouverture + saisie du score reporté.
 //  - défi manuel  → saisie directe du score (physique).
 // Tous les défis tournent en parallèle ; on valide quand l'équipe a fini.
-export default function Realisation({ menaces, assignation, onValider }) {
+export default function Realisation({ menaces, assignation, onValider, difficulte = 'normal' }) {
   // On ne traite QUE les menaces sur lesquelles l'équipe a placé des joueurs ;
   // les autres montent (pas de score à saisir).
   const menacesActives = menaces.filter((m) => (assignation[m.id] ?? []).length > 0)
@@ -46,7 +46,7 @@ export default function Realisation({ menaces, assignation, onValider }) {
             </span>
 
             {defi.Composant && (
-              <a className="realisation__lien" href={`#/defi/${m.id}`} target="_blank" rel="noreferrer">
+              <a className="realisation__lien" href={`#/defi/${m.id}/${difficulte}`} target="_blank" rel="noreferrer">
                 Ouvrir le défi ↗
               </a>
             )}

@@ -24,6 +24,10 @@ describe('store — demarrer', () => {
   it('est déterministe pour un même seed', () => {
     expect(jouer(demarrer).partie).toEqual(jouer(demarrer).partie)
   })
+  it('enregistre la difficulté (normal par défaut)', () => {
+    expect(jouer(demarrer).difficulte).toBe('normal')
+    expect(jouer({ ...demarrer, difficulte: 'epique' }).difficulte).toBe('epique')
+  })
 })
 
 describe('store — transitions de phase', () => {

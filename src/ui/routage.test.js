@@ -6,9 +6,13 @@ describe('parseRoute', () => {
     expect(parseRoute('')).toEqual({ nom: 'app' })
     expect(parseRoute('#/')).toEqual({ nom: 'app' })
   })
-  it('#/defi/<id> → defi avec id', () => {
-    expect(parseRoute('#/defi/crypto')).toEqual({ nom: 'defi', id: 'crypto' })
-    expect(parseRoute('#/defi/arcade')).toEqual({ nom: 'defi', id: 'arcade' })
+  it('#/defi/<id> → defi avec id (difficulté normale par défaut)', () => {
+    expect(parseRoute('#/defi/crypto')).toEqual({ nom: 'defi', id: 'crypto', difficulte: 'normal' })
+    expect(parseRoute('#/defi/arcade')).toEqual({ nom: 'defi', id: 'arcade', difficulte: 'normal' })
+  })
+  it('#/defi/<id>/<difficulté> → defi avec difficulté', () => {
+    expect(parseRoute('#/defi/arcade/epique')).toEqual({ nom: 'defi', id: 'arcade', difficulte: 'epique' })
+    expect(parseRoute('#/defi/crypto/entrainement')).toEqual({ nom: 'defi', id: 'crypto', difficulte: 'entrainement' })
   })
   it('route inconnue → app', () => {
     expect(parseRoute('#/nimporte')).toEqual({ nom: 'app' })

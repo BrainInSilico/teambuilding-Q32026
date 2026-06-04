@@ -20,6 +20,7 @@ export function etatInitial() {
     phase: 'setup',
     partie: null,
     joueurs: [],
+    difficulte: 'normal',
     assignation: {},
     resultats: {},
     dernierScore: [],
@@ -37,7 +38,13 @@ export function reducer(etat, action) {
   switch (action.type) {
     case 'demarrer': {
       const partie = entrerTour(nouvellePartie(action.seed))
-      return { ...etatInitial(), phase: 'menace', partie, joueurs: action.joueurs ?? [] }
+      return {
+        ...etatInitial(),
+        phase: 'menace',
+        partie,
+        joueurs: action.joueurs ?? [],
+        difficulte: action.difficulte ?? 'normal',
+      }
     }
 
     case 'continuer': {

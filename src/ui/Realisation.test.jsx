@@ -24,7 +24,7 @@ describe('Realisation v3 (pages dédiées)', () => {
       <Realisation menaces={[{ id: 'arcade', nom: 'Surcharge' }]} assignation={{ arcade: ['A'] }} onValider={() => {}} />,
     )
     const ligne = screen.getByTestId('defi-arcade')
-    expect(within(ligne).getByRole('link', { name: /ouvrir le défi/i })).toHaveAttribute('href', '#/defi/arcade')
+    expect(within(ligne).getByRole('link', { name: /ouvrir le défi/i })).toHaveAttribute('href', '#/defi/arcade/normal')
     expect(within(ligne).getByTestId('res-x-arcade')).toBeInTheDocument()
   })
 
@@ -66,7 +66,7 @@ describe('Realisation v3 (pages dédiées)', () => {
     const onValider = vi.fn()
     render(<Realisation menaces={[{ id: 'bowling', nom: 'Instabilité' }]} assignation={{ bowling: ['A'] }} onValider={onValider} />)
     const ligne = screen.getByTestId('defi-bowling')
-    expect(within(ligne).getByRole('link', { name: /ouvrir le défi/i })).toHaveAttribute('href', '#/defi/bowling')
+    expect(within(ligne).getByRole('link', { name: /ouvrir le défi/i })).toHaveAttribute('href', '#/defi/bowling/normal')
     fireEvent.change(screen.getByTestId('res-x-bowling'), { target: { value: '7' } })
     fireEvent.change(screen.getByTestId('res-n-bowling'), { target: { value: '13' } })
     fireEvent.click(screen.getByRole('button', { name: /valider les résultats/i }))

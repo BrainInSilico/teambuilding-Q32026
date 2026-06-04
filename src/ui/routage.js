@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 
-// Routage par hash (100 % statique, offline) : #/defi/<id> ou app par défaut.
+// Routage par hash (100 % statique, offline) :
+//   #/defi/<id>            → difficulté normale par défaut
+//   #/defi/<id>/<diff>     → difficulté transmise (entrainement | normal | epique)
 export function parseRoute(hash) {
-  const m = /^#\/defi\/([^/]+)$/.exec(hash ?? '')
-  if (m && m[1]) return { nom: 'defi', id: m[1] }
+  const m = /^#\/defi\/([^/]+)(?:\/([^/]+))?$/.exec(hash ?? '')
+  if (m && m[1]) return { nom: 'defi', id: m[1], difficulte: m[2] || 'normal' }
   return { nom: 'app' }
 }
 
