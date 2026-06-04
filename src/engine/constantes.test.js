@@ -24,6 +24,7 @@ describe('CONFIG (chiffrage placeholder)', () => {
     expect(CONFIG.vitesse.lo).toBeLessThan(CONFIG.vitesse.hi)
     expect(CONFIG.seuilT.lo).toBeLessThanOrEqual(CONFIG.seuilT.hi)
     expect(CONFIG.contagionParMenaceSaturee).toBeGreaterThan(0)
+    expect(CONFIG.integriteDepart).toBe(0) // le système démarre corrompu, à restaurer
     expect(CONFIG.integriteDeltaPerk).toBeGreaterThan(0)
     expect(CONFIG.integriteDeltaMalus).toBeGreaterThan(0)
     expect(CONFIG.ligneSurvie).toBeGreaterThan(0)

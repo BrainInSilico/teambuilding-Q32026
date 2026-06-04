@@ -25,8 +25,9 @@ export const CONFIG = {
   facteurRepit: 0.25,
   // Contagion : +X par menace saturée (à 100) appliqué aux autres en fin de tour.
   contagionParMenaceSaturee: 6,
-  // Méta-jauge Intégrité système [0,100].
-  integriteDepart: 100,
+  // Méta-jauge Intégrité système [0,100]. Démarre à 0 : le système est corrompu
+  // par ARGOS au départ, l'équipe doit le RESTAURER (perks) en évitant les malus.
+  integriteDepart: 0,
   integriteDeltaPerk: 5, // menace ramenée à 0
   integriteDeltaMalus: 10, // par menace saturée en fin de tour
   ligneSurvie: 50, // en fin de partie : >= ligne → survie, sinon ARGOS gagne

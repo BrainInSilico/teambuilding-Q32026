@@ -98,9 +98,11 @@ describe('store — actions MJ (safeguard)', () => {
   })
 
   it('mjAjusterIntegrite modifie l’Intégrité (clampée)', () => {
-    let e = jouer(demarrer)
-    e = reducer(e, { type: 'mjAjusterIntegrite', delta: -30 })
-    expect(e.partie.integrite).toBe(70)
+    let e = jouer(demarrer) // Intégrité démarre à 0
+    e = reducer(e, { type: 'mjAjusterIntegrite', delta: +40 })
+    expect(e.partie.integrite).toBe(40)
+    e = reducer(e, { type: 'mjAjusterIntegrite', delta: -1000 })
+    expect(e.partie.integrite).toBe(0)
   })
 
   it('actions MJ sans partie → état inchangé', () => {

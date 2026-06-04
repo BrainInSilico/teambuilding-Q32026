@@ -304,7 +304,7 @@ describe('ajusteurs MJ (safeguard)', () => {
   })
 
   it('ajusterIntegrite clampe [0,100]', () => {
-    const e0 = nouvellePartie(42)
+    const e0 = { ...nouvellePartie(42), integrite: 80 }
     expect(ajusterIntegrite(e0, +50).integrite).toBe(100)
     expect(ajusterIntegrite(e0, -1000).integrite).toBe(0)
   })
